@@ -14,7 +14,7 @@
         <?=$preload;?>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg sticky-top">
             <div class="container-xl">
                 <a class="navbar-brand" href="#">
                     <img src="<?=base_url();?>public/assets/image/logo_flow.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -54,6 +54,14 @@
         <div class="container-xl main">
             <?php if (!empty($page)) { echo $page; } ?>
         </div>
+        <footer>
+            <div class="environment">
+                <p>Page rendered in {elapsed_time} seconds<br>Environment: <?= ENVIRONMENT ?></p>
+            </div>
+            <div class="copyrights">
+                <p class="pt-1">&copy; <?= date('Y') ?> CodeIgniter Foundation. CodeIgniter is open source project released under the MIT open source licence.</p>
+            </div>
+        </footer>
         <script src="<?=base_url();?>public/assets/bootstrap.bundle.js"></script>
         <script src="<?=base_url();?>public/assets/moment.min.js"></script>
     </body>

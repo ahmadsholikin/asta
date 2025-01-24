@@ -1,16 +1,7 @@
 <script>
-    
     document.addEventListener('DOMContentLoaded', function() {
-        const entriAgendaModal = new bootstrap.Modal('#entriAgendaModal', {
-            keyboard: false
-        })
-        const optionsDate = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        };
-        const calendarEl = document.getElementById('calendar')
+        const entriAgendaModal  = new bootstrap.Modal('#entriAgendaModal', {keyboard: false})
+        const calendarEl        = document.getElementById('calendar')
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             locale: 'id',
@@ -24,12 +15,12 @@
                         // }
             ],
             dateClick: function(info) {
-                document.getElementById('tanggal_terpilih').textContent=moment('01/01/2016', 'MM/DD/YYYY');
+                let tanggal_terpilih = new Date(info.dateStr);
+                moment.locale('id');
+                document.getElementById('tanggal_terpilih').textContent = moment(tanggal_terpilih).format('DD MMMM YYYY');
                 entriAgendaModal.show();
             }
         })
         calendar.render()
     })
-
-    
 </script>
