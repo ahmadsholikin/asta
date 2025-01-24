@@ -1,0 +1,178 @@
+body{
+    font-family: "Poppins", serif;
+    background-color:#fbfbfb;
+}
+
+p{
+    font-size: 12px;
+}
+
+.main{
+    background-color: #fff;
+    padding: 5px 10px 10px 10px;
+    height: 100vh;
+    margin-top:20px;
+}
+
+
+.navbar{
+    border-top: 2px solid #ea4539;
+    border-bottom: 1px solid #eaeaea;
+    background-color: #fff;
+}
+
+.nav-link{
+    font-size: 14px !important;
+}
+
+.dropdown-item{
+    font-size: 14px !important;
+}
+
+.poppins-thin {
+    font-family: "Poppins", serif;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.poppins-extralight {
+    font-family: "Poppins", serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.poppins-light {
+    font-family: "Poppins", serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.poppins-regular {
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.poppins-medium {
+    font-family: "Poppins", serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.poppins-semibold {
+    font-family: "Poppins", serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.poppins-bold {
+    font-family: "Poppins", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.poppins-extrabold {
+    font-family: "Poppins", serif;
+    font-weight: 800;
+    font-style: normal;
+}
+
+.poppins-black {
+    font-family: "Poppins", serif;
+    font-weight: 900;
+    font-style: normal;
+}
+
+.poppins-thin-italic {
+    font-family: "Poppins", serif;
+    font-weight: 100;
+    font-style: italic;
+}
+
+.poppins-extralight-italic {
+    font-family: "Poppins", serif;
+    font-weight: 200;
+    font-style: italic;
+}
+
+.poppins-light-italic {
+    font-family: "Poppins", serif;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.poppins-regular-italic {
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.poppins-medium-italic {
+    font-family: "Poppins", serif;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.poppins-semibold-italic {
+    font-family: "Poppins", serif;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.poppins-bold-italic {
+    font-family: "Poppins", serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.poppins-extrabold-italic {
+    font-family: "Poppins", serif;
+    font-weight: 800;
+    font-style: italic;
+}
+
+.poppins-black-italic {
+    font-family: "Poppins", serif;
+    font-weight: 900;
+    font-style: italic;
+}
+
+/* breadcumbs */
+.breadcrumb{
+    width: 100%;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.breadcrumb-item{
+    padding: 2px 4px;
+}
+
+.breadcrumb-item a{
+    font-style: normal;
+    color: #333;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "»";
+}
+
+/* full calendar */
+.fc-scrollgrid-sync-inner > a, .fc-daygrid-day-number{
+    color: #222 !important;
+    text-decoration: none;
+}
+
+.fc-toolbar-title{
+    font-size: 20px !important;
+}
+
+.fc-button{
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.875rem !important;
+}
+
+.fc-day-sun, .fc-day-sat{
+    background-color: #ffedeb;
+}
