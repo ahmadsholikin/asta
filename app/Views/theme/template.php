@@ -6,12 +6,15 @@
         <title>Bootstrap demo</title>
         <link rel="stylesheet" href="<?=base_url();?>public/assets/bootstrap.css">
         <link rel="stylesheet" href="<?=base_url();?>public/assets/custom.css">
+        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
-        <?=$preload;?>
+        
     </head>
     <body>
         <nav class="navbar navbar-expand-lg sticky-top">
@@ -64,5 +67,7 @@
         </footer>
         <script src="<?=base_url();?>public/assets/bootstrap.bundle.js"></script>
         <script src="<?=base_url();?>public/assets/moment.min.js"></script>
+        <?=$preload;?>
+        
     </body>
 </html>

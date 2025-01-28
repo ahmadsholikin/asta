@@ -13,7 +13,10 @@
         <div id='calendar'></div>
     </div>
     <div class="col-4">
-        <h5 class="border-bottom pb-2 mb-3 pt-1">Agenda Kegiatan</h5>
+        <div class="d-flex border-bottom mb-3">
+            <h5 class=" pt-1 flex-grow-1">Agenda Kegiatan</h5>
+            <h4 onclick="refreshCalendar()" class="pr-2 pt-2"><i class="fi fi-rr-add"></i></h4>
+        </div>
         <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
                 <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
@@ -65,9 +68,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-success">Tambahkan</button>
-                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">batal</button>
+                <button type="button" class="btn btn-sm btn-light"><i class="fi fi-rr-add"></i> Tambahkan</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">batal</button>
             </div>
         </div>
     </div>
 </div>
+<?= view($path . 'page-js'); ?>
