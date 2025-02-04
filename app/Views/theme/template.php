@@ -5,16 +5,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Bootstrap demo</title>
         <link rel="stylesheet" href="<?=base_url();?>public/assets/bootstrap.css">
-        <link rel="stylesheet" href="<?=base_url();?>public/assets/custom.css">
+        <link rel="stylesheet" href="<?=base_url();?>public/libs/select2/dist/css/select2.min.css">
+        <link rel="stylesheet" href="<?=base_url();?>public/libs/select2/dist/select2-bootstrap.min.css">
+        <link rel="stylesheet" href="<?=base_url();?>public/libs/datepicker/css/bootstrap-datepicker-min.css">
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <link rel='stylesheet' href='https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css'>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="<?=base_url();?>public/assets/custom.css">
+        <!-- Javascript -->
+        <script src="<?=base_url();?>public/assets/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
-        
+        <!-- cdn autocomplete -->
+        <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.9/dist/autoComplete.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.9/dist/css/autoComplete.02.min.css">
+        <!-- overwrite all -->
+        <link rel="stylesheet" href="<?=base_url();?>public/assets/custom.css">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg sticky-top">
@@ -27,31 +36,43 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link" href="<?= base_url(''); ?>">Beranda</a>
+                    <div class="navbar-nav d-flex">
+                        <a class="nav-link" href="<?= base_url('beranda'); ?>">Beranda</a>
                         <a class="nav-link" href="<?= base_url('agenda'); ?>">Agenda</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Aktivitas </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="<?= base_url('aktivitas/perjalanan-dinas'); ?>">Perjalanan Dinas</a>
+                                </li>
+                            </ul>
+                        </li>
                         <a class="nav-link" href="#">Laporan</a>
                         <a class="nav-link" href="#">Kelola</a>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Referensi </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="#">Rekening</a>
+                                    <a class="dropdown-item" href="<?= base_url('referensi/rekening'); ?>">Rekening</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">Standar Harga</a>
+                                    <a class="dropdown-item" href="<?= base_url('referensi/standar-harga'); ?>">Standar Harga</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">Template</a>
+                                    <a class="dropdown-item" href="<?= base_url('referensi/template'); ?>">Template</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Akun </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="<?= base_url('logout'); ?>">keluar</a>
                                 </li>
                             </ul>
                         </li>
                     </div>
                 </div>
-                <form class="d-flex" role="search">
-                    <input class="form-control form-control-sm me-2" type="search" placeholder="Ketik pencarian..." aria-label="Search">
-                    <button class="btn btn-sm btn-outline-dark" type="submit">Cari</button>
-                </form>
             </div>
         </nav>
         <div class="container-xl main">
@@ -67,7 +88,10 @@
         </footer>
         <script src="<?=base_url();?>public/assets/bootstrap.bundle.js"></script>
         <script src="<?=base_url();?>public/assets/moment.min.js"></script>
+        <script src="<?=base_url();?>public/libs/datepicker/bootstrap-datepicker.js"></script>
+        <script src="<?=base_url();?>public/libs/select2/select2.min.js"></script>
+        <script src="<?=base_url();?>public/assets/validator.js"></script>
+        <script src="<?=base_url();?>public/assets/cleave.min.js"></script>
         <?=$preload;?>
-        
     </body>
 </html>

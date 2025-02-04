@@ -8,7 +8,7 @@ class Agenda extends BaseController
     public $path_view	= 'backend/agenda/';
     public $theme       = "theme/template";
 
-    public function index(): string
+    public function index()
     {
         $data['path']       = $this->path_view;
         $data['preload']    = view($this->path_view . 'page-preload');

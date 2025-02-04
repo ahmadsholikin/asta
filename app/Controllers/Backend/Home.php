@@ -8,7 +8,7 @@ class Home extends BaseController
     public $path_view	= 'backend/dashboard/';
     public $theme       = "theme/template";
 
-    public function index(): string
+    public function index()
     {
         $data['path']       = $this->path_view;
         $data['preload']    = null;

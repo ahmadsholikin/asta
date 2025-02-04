@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-7">
+    <div class="col-md-7 col-sm-12">
         <div class="p-3">
             <h5>Hello Worker, </h5>
             <p class="text-muted">Sini biar Asta permudah pekerjaanmu </p>
@@ -17,7 +17,7 @@
         <div class="p-3">
             <div class="row">
                 <?php for ($i=0; $i < 3; $i++) : ?>
-                <div class="col-4">
+                <div class="col-md-4 col-sm-12">
                     <div class="card" aria-hidden="true">
                         <img style="height: 170px;" src="<?=base_url('public/assets/image/loader.gif');?>" class="card-img-top" alt="...">
                         <div class="card-body">
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="col-5">
+    <div class="col-md-5  col-sm-12">
         
     </div>
 </div>
