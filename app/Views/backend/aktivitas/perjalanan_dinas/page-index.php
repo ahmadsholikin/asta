@@ -26,9 +26,9 @@
                         <th>No.</th>
                         <th>Kategori</th>
                         <th>Tanggal</th>
-                        <th>Lokasi</th>
                         <th>Keterangan</th>
-                        <th>Orang</th>
+                        <th>Lokasi</th>
+                        <th>Pelaksana</th>
                         <th>Progress</th>
                         <th>#</th>
                     </tr>
@@ -60,12 +60,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" name="id" id="id">
                     <div class="form-group mb-3">
                         <label for="kategori_id" class="form-label form-label-sm">Kategori</label>
                         <select class="form-control form-control-sm" id="kategori_id" name="kategori_id">
-                            <option value="DL">Dinas Luar</option>
-                            <option value="DD-R">Dinas Dalam - Rapat</option>
-                            <option value="DD-PM">Dinas Dalam - Pengawasan Modal</option>
+                            <?php foreach ($kategori as $row) : ?>
+                            <option value="<?=$row['id'];?>"><?=$row['nama'];?></option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                     
@@ -96,6 +97,23 @@
                             <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
                         </div>
                     </div>
+                    
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label for="tanggal_surat" class="form-label form-label-sm">Tanggal Surat</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm datepicker" name="tanggal_surat" id="tanggal_surat" placeholder="Entrian...">
+                                <label class="input-group-text" for="inputGroupSelect02"><i class="fi fi-rr-calendar"></i></label>
+                            </div>
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="nomor_surat" class="form-label form-label-sm">Nomor Surat</label>
+                            <input type="text" class="form-control form-control-sm" name="nomor_surat" id="nomor_surat" placeholder="Entrian...">
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col mb-3">
@@ -107,6 +125,148 @@
                         </div>
                     </div>
                     
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-teal" data-bs-dismiss="modal" id="btnSimpan">Simpan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="orangModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="<?=base_url();?>aktivitas/perjalanan-dinas/tambah-orang" id="formEntrianOrang" name="formEntrianOrang" method="POST" data-toggle='validator' role='form' onsubmit='return false;'>
+                <div class="modal-header">
+                    <h6 class="modal-title fs-5" id="staticBackdropLabel">Tambah Keikutsertaan Personil</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="referensi_agenda" id="referensi_agenda">
+                    <input type="hidden" name="personId" id="personId">
+                    <input type="hidden" name="nama_gelar" id="nama_gelar">
+                    <input type="hidden" name="eselon" id="eselon">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="person" name="person" class="form-control form-control-sm" placeholder="Ketikkan Nama atau NIP Person" autocomplete="off"/>
+                                <label class="input-group-text" for="inputGroupSelect02" id="person"><i class="fi fi-rr-search"></i></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="nip" class="form-label form-label-sm">NIP</label>
+                        <input type="text" class="form-control form-control-sm" name="nip" id="nip" placeholder="Entrian..."  
+                                minlength="3" data-error="Maaf, entrian hanya berupa angka saja | Wajib diisikan">
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="nama" class="form-label form-label-sm">Nama</label>
+                        <input type="text" class="form-control form-control-sm" name="nama" id="nama" placeholder="Entrian..."  
+                                minlength="3" data-error="Maaf, entrian hanya berupa huruf dan spasi | Wajib diisikan">
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="jabatan" class="form-label form-label-sm">Jabatan</label>
+                        <input type="text" class="form-control form-control-sm" name="jabatan" id="jabatan" placeholder="Entrian..."  
+                                minlength="3" data-error="Maaf, entrian hanya berupa huruf dan spasi | Wajib diisikan">
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label for="golru" class="form-label form-label-sm">Gol. Ruang</label>
+                            <input type="text" class="form-control form-control-sm" name="golru" id="golru" placeholder="Entrian...">
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="pangkat" class="form-label form-label-sm">Pangkat</label>
+                            <input type="text" class="form-control form-control-sm" name="pangkat" id="pangkat" placeholder="Entrian...">
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="opd" class="form-label form-label-sm">OPD</label>
+                        <input type="text" class="form-control form-control-sm" name="opd" id="opd" placeholder="Entrian..."  
+                                minlength="3" data-error="Maaf, entrian hanya berupa huruf dan spasi | Wajib diisikan">
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="tingkat" class="form-label form-label-sm">Kategori Tingkatan</label>
+                        <select class="form-control form-control-sm" id="tingkat" name="tingkat">
+                            <option value="Golongan B">Golongan B</option>
+                            <option value="Golongan C">Golongan C</option>
+                            <option value="Golongan D">Golongan D</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-teal" data-bs-dismiss="modal" id="btnSimpan">Simpan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="lokasiModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="<?=base_url();?>aktivitas/perjalanan-dinas/tambah-lokasi" id="formEntrianLokasi" name="formEntrianLokasi" method="POST" data-toggle='validator' role='form' onsubmit='return false;'>
+                <div class="modal-header">
+                    <h6 class="modal-title fs-5" id="staticBackdropLabel">Tambah Lokasi Tujuan</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="referensi_agenda" id="referensi_agenda">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="perusahaan" name="perusahaan" class="form-control form-control-sm" placeholder="Ketikkan Nama Perusahaan atau Nama Proyek" autocomplete="off"/>
+                                <label class="input-group-text" for="inputGroupSelect02" id="perusahaan"><i class="fi fi-rr-search"></i></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="lokasi" class="form-label form-label-sm">Nama Lokasi</label>
+                        <input type="text" class="form-control form-control-sm" name="lokasi" id="lokasi" placeholder="Entrian..."  
+                                minlength="3" data-error="Maaf, entrian wajib diisikan">
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="alamat" class="form-label form-label-sm">Alamat</label>
+                        <input type="text" class="form-control form-control-sm" name="alamat" id="alamat" placeholder="Entrian..."  
+                                minlength="20" data-error="Maaf, entrian wajib diisikan">
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="wilayah" class="form-label form-label-sm">Wilayah Kecamatan</label>
+                        <select class="form-control form-control-sm" id="wilayah" name="wilayah">
+                            <option value="-" disabled selected>-- Pilihan Wilayah Kecamatan --</option>
+                            <?php foreach($kecataman as $row_kecamatan): ?>
+                            <option value="<?=$row_kecamatan['nama'];?>"><?=$row_kecamatan['nama'];?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="tanggal" class="form-label form-label-sm">Tanggal</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm datepicker" name="tanggal" id="tanggal" placeholder="Entrian...">
+                            <label class="input-group-text" for="inputGroupSelect02"><i class="fi fi-rr-calendar"></i></label>
+                        </div>
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-sm btn-teal" data-bs-dismiss="modal" id="btnSimpan">Simpan</button>

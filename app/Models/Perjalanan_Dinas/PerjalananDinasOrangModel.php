@@ -10,7 +10,7 @@ class PerjalananDinasOrangModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
         "referensi_agenda",
@@ -21,8 +21,10 @@ class PerjalananDinasOrangModel extends Model
         "golru",
         "pangkat",
         "opd",
+        "eselon",
         "urutan",
         "nominal",
+        "tingkat",
         "created_at",
         "created_by",
         "updated_at",
@@ -60,4 +62,24 @@ class PerjalananDinasOrangModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    
+    public function tampilkanSemua()
+    {
+        return $this->findAll();
+    }
+
+    public function tampilkanBerdasarkanId($id=false)
+    {
+        return $this->find($id);
+    }
+
+    public function simpan($data)
+    {
+        return $this->save($data);
+    }
+
+    public function hapus($id)
+    {
+        return $this->delete($id);
+    }
 }

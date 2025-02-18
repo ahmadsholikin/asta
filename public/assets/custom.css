@@ -510,6 +510,12 @@ footer .copyrights p{
     box-shadow: 0 0 0 0.2rem rgba(4, 163, 184, 0.5) !important;
 }
 
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #016968 !important;
+}
+
 /* overwrite datatable */
 .dataTable > thead > tr, .dataTable > tbody > tr {
     font-size: 85% !important;
