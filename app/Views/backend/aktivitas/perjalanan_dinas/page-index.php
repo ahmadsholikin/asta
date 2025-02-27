@@ -12,11 +12,11 @@
     <div class="col-md-12 col-sm-12">
         <div class="px-3 d-flex">
             <div class="title-page flex-grow-1">
-                <h5 class="text-teal fw-semibold">Perjalanan Dinas</h5>
+                <h5 class="fw-semibold">Perjalanan Dinas</h5>
                 <p class="text-muted">Cara pas untuk mempermudah kegiatan perjalanan dinas </p>
             </div>
             <div class="button-page">
-                <button type="button" class="btn btn-sm btn-teal" id="btnTambahAgenda"><i class="fi fi-rr-add"></i> Buat Agenda </button>
+                <button type="button" class="btn btn-sm btn-primary fw-semibold" id="btnTambahAgenda">Buat Agenda </button>
             </div>
         </div>
         <div class="px-3">
@@ -82,7 +82,7 @@
                         <div class="col-6 mb-3">
                             <label for="tanggal_berangkat" class="form-label form-label-sm">Tanggal Berangkat</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm datepicker" name="tanggal_berangkat" id="tanggal_berangkat" placeholder="Entrian...">
+                                <input type="text" class="form-control form-control-sm datepicker" name="tanggal_berangkat" id="tanggal_berangkat" autocomplete="off" placeholder="Entrian...">
                                 <label class="input-group-text" for="inputGroupSelect02"><i class="fi fi-rr-calendar"></i></label>
                             </div>
                             <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
@@ -91,7 +91,7 @@
                         <div class="col-6 mb-3">
                             <label for="tanggal_pulang" class="form-label form-label-sm">Tanggal Pulang</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm datepicker" name="tanggal_pulang" id="tanggal_pulang" placeholder="Entrian...">
+                                <input type="text" class="form-control form-control-sm datepicker" name="tanggal_pulang" id="tanggal_pulang" autocomplete="off" placeholder="Entrian...">
                                 <label class="input-group-text" for="inputGroupSelect02"><i class="fi fi-rr-calendar"></i></label>
                             </div>
                             <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
@@ -102,7 +102,7 @@
                         <div class="col-6 mb-3">
                             <label for="tanggal_surat" class="form-label form-label-sm">Tanggal Surat</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm datepicker" name="tanggal_surat" id="tanggal_surat" placeholder="Entrian...">
+                                <input type="text" class="form-control form-control-sm datepicker" name="tanggal_surat" id="tanggal_surat" autocomplete="off" placeholder="Entrian...">
                                 <label class="input-group-text" for="inputGroupSelect02"><i class="fi fi-rr-calendar"></i></label>
                             </div>
                             <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
@@ -147,8 +147,9 @@
                 <div class="modal-body">
                     <input type="hidden" name="referensi_agenda" id="referensi_agenda">
                     <input type="hidden" name="personId" id="personId">
-                    <input type="hidden" name="nama_gelar" id="nama_gelar">
                     <input type="hidden" name="eselon" id="eselon">
+                    <input type="hidden" name="rekening" id="rekening">
+                    <input type="hidden" name="bank" id="bank" value="BANK JATENG">
                     <div class="row">
                         <div class="col mb-3">
                             <div class="input-group input-group-sm">
@@ -173,6 +174,13 @@
                     </div>
                     
                     <div class="form-group mb-3">
+                        <label for="nama_gelar" class="form-label form-label-sm">Nama dengan Gelar</label>
+                        <input type="text" class="form-control form-control-sm" name="nama_gelar" id="nama_gelar" placeholder="Entrian..."  
+                                minlength="3" data-error="Maaf, entrian hanya berupa huruf dan spasi | Wajib diisikan">
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
                         <label for="jabatan" class="form-label form-label-sm">Jabatan</label>
                         <input type="text" class="form-control form-control-sm" name="jabatan" id="jabatan" placeholder="Entrian..."  
                                 minlength="3" data-error="Maaf, entrian hanya berupa huruf dan spasi | Wajib diisikan">
@@ -181,7 +189,7 @@
 
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <label for="golru" class="form-label form-label-sm">Gol. Ruang</label>
+                            <label for="golru" class="form-label form-label-sm">Golongan</label>
                             <input type="text" class="form-control form-control-sm" name="golru" id="golru" placeholder="Entrian...">
                             <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
                         </div>
@@ -210,7 +218,10 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex">
+                    <div class="flex-grow-1">
+                        <button type="button" onclick="hapusOrang()" class="btn btn-sm btn-danger float-start" data-bs-dismiss="modal">Hapus</button>
+                    </div>
                     <button type="submit" class="btn btn-sm btn-teal" data-bs-dismiss="modal" id="btnSimpan">Simpan</button>
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
                 </div>
@@ -230,6 +241,8 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="referensi_agenda" id="referensi_agenda">
+                    <input type="hidden" name="id_proyek" id="id_proyek">
+                    <input type="hidden" name="id_lokasi" id="id_lokasi">
                     <div class="row">
                         <div class="col mb-3">
                             <div class="input-group input-group-sm">
@@ -250,6 +263,31 @@
                                 minlength="20" data-error="Maaf, entrian wajib diisikan">
                         <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
                     </div>
+                    <div class="row">
+                        <div class="col-2 mb-3">
+                            <label for="kbli" class="form-label form-label-sm">KBLI</label>
+                            <input type="text" class="form-control form-control-sm" name="kbli" id="kbli" placeholder="Entrian...">
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+
+                        <div class="col-10 mb-3">
+                            <label for="deskripsi_kbli" class="form-label form-label-sm">Deskripsi KBLi</label>
+                            <input type="text" class="form-control form-control-sm" name="deskripsi_kbli" id="deskripsi_kbli" placeholder="Entrian...">
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="sektor_usaha" class="form-label form-label-sm">Sektor Usaha</label>
+                        <input type="text" class="form-control form-control-sm" name="sektor_usaha" id="sektor_usaha" placeholder="Entrian..."  
+                                minlength="20" data-error="Maaf, entrian wajib diisikan">
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="risiko" class="form-label form-label-sm">Risiko</label>
+                        <input type="text" class="form-control form-control-sm" name="risiko" id="risiko" placeholder="Entrian..."  
+                                minlength="20" data-error="Maaf, entrian wajib diisikan">
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
                     <div class="form-group mb-3">
                         <label for="wilayah" class="form-label form-label-sm">Wilayah Kecamatan</label>
                         <select class="form-control form-control-sm" id="wilayah" name="wilayah">
@@ -259,10 +297,23 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label for="longitude" class="form-label form-label-sm">Longitude</label>
+                            <input type="text" class="form-control form-control-sm" name="longitude" id="longitude" placeholder="Entrian...">
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="latitude" class="form-label form-label-sm">Latitude</label>
+                            <input type="text" class="form-control form-control-sm" name="latitude" id="latitude" placeholder="Entrian...">
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+                    </div>
                     <div class="form-group mb-3">
                         <label for="tanggal" class="form-label form-label-sm">Tanggal</label>
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control form-control-sm datepicker" name="tanggal" id="tanggal" placeholder="Entrian...">
+                            <input type="text" class="form-control form-control-sm datepicker" name="tanggal" id="tanggal" placeholder="Entrian..." autocomplete="off">
                             <label class="input-group-text" for="inputGroupSelect02"><i class="fi fi-rr-calendar"></i></label>
                         </div>
                         <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>

@@ -82,4 +82,26 @@ class PerjalananDinasAgendaModel extends Model
     {
         return $this->delete($id);
     }
+    
+    public function join($in)
+    {
+        $query = "SELECT
+                        orang.nama_gelar,
+                        orang.pangkat,
+                        orang.golru,
+                        count(agenda.id) as jml_kegiatan,
+                        SUM(orang.nominal) as nominal,
+                        '0' as potongan,
+                        SUM(orang.nominal) as penerimaan,
+                        '' as rekening,
+                        '' as bank,
+                        '' as ttd
+                    FROM 
+                            perjalanan_dinas_agenda agenda
+                    INNER JOIN
+                            perjalanan_dinas_orang orang
+                    ON agenda.id = orang.referensi_agenda
+                    WHERE agenda.id IN (".$in.") GROUP BY orang.nama;";
+        return $this->query($query)->getResultArray();
+    }
 }

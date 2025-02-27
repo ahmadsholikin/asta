@@ -18,7 +18,7 @@
                                 { data: 'no' },
                                 { data: 'kategori_nama' },
                                 { data: 'tanggal' },
-                                { data: 'kegiatan' },
+                                { data: 'tujuan' },
                                 { data: 'lokasi' },
                                 { data: 'orang' },
                                 { data: 'progress' },
@@ -58,13 +58,13 @@
                 dataType: 'json',
                 beforeSend: function() {
                     Swal.fire({
-                        text:"Mohon tunggu sebentar....",
-                        showCloseButton: false,
-                        showCancelButton: false,
+                        text             : "Mohon tunggu sebentar....",
+                        showCloseButton  : false,
+                        showCancelButton : false,
                         showConfirmButton: false,
-                        imageUrl: "<?= base_url()?>public/assets/image/dna.svg",
-                        imageWidth: 100,
-                        imageHeight: 100,
+                        imageUrl         : "<?= base_url()?>public/assets/image/dna.svg",
+                        imageWidth       : 100,
+                        imageHeight      : 100,
                     })
                 },
                 success: function(data, textStatus, xhr) {
@@ -72,8 +72,8 @@
                     console.log(data);
 
                     Swal.fire({
-                        imageUrl: "https://sipgan.magelangkab.go.id/sipgan/images/photo/"+responseData.nip_baru+".jpg",
-                        imageWidth: 150,
+                        imageUrl   : "https://sipgan.magelangkab.go.id/sipgan/images/photo/"+responseData.nip_baru+".jpg",
+                        imageWidth : 150,
                         imageHeight: 200,
                         html:   '<ul class="list-group list-group-flush">'+
                                     '<li class="list-group-item"><small>'+responseData.nama+'</small></li>'+
@@ -269,10 +269,15 @@
                 responseData = data;
                 console.log(responseData);
                 $("#lokasi").val(responseData.nama_perusahaan);
-                $("#alamat").val(responseData.alamat_usaha+" "+responseData.kelurahan+" "+responseData.kecamatan);
+                $("#alamat").val(responseData.alamat_usaha+", Desa "+responseData.kelurahan+", Kecamatan "+responseData.kecamatan+", Kabupaten Magelang");
                 $("#wilayah").val(responseData.kecamatan);
-
-                // $("#nip").val(responseData.nip_baru);
+                $("#longitude").val(responseData.longitude);
+                $("#latitude").val(responseData.latitude);
+                $("#kbli").val(responseData.kbli);
+                $("#deskripsi_kbli").val(responseData.judul_kbli);
+                $("#risiko").val(responseData.uraian_risiko_proyek);
+                $("#sektor_usaha").val(responseData.sektor_pembina);
+                $("#id_proyek").val(responseData.id_proyek);
             },
             error: function(textStatus, xhr) {
                 console.log("Error");
@@ -372,6 +377,128 @@
         $('#formEntrianOrang').trigger("reset");
         $('#formEntrianLokasi').trigger("reset");
         $("input[name='referensi_agenda']").val(id);
+    }
+    
+    function setIdReferensiAgendaDanPersonId(id,id_person)
+    {
+        $("input[name='referensi_agenda']").val(id);
+        $("input[name='personId']").val(id_person);
+        
+        //get detail person
+        $.ajax(
+        {
+            "url"     : url_backend + "ambil-data-orang",
+            "type"    : "POST",
+            "dataType": "json",
+            "data"    : { 
+                "id"  : id_person,
+            },
+            success: function(data, textStatus, xhr)
+            {
+                console.log(data);
+                param = data;
+                $("#person").val(param.nip+" - "+param.nama);
+                $("#nip").val(param.nip);
+                $("#nama").val(param.nama);
+                $("#nama_gelar").val(param.nama_gelar);
+                $("#jabatan").val(param.jabatan);
+                $("#golru").val(param.golru);
+                $("#pangkat").val(param.pangkat);
+                $("#opd").val(param.opd);
+                $("#tingkat").val(param.tingkat);
+            },
+            error: function(textStatus,xhr)
+            {
+                console.log("error");
+            }
+        });
+    }
+    
+    function clearLokasi()
+    {
+        $("input[name='id_lokasi']").val("");
+        $("input[name='id_proyek']").val("");
+    }
+    
+    function setIdReferensiAgendaDanLokasiId(id,id_lokasi)
+    {
+        $("input[name='id_lokasi']").val("");
+        $("input[name='referensi_agenda']").val(id);
+        $("input[name='id_lokasi']").val(id_lokasi);
+        
+        //get detail person
+        $.ajax(
+        {
+            "url"     : url_backend + "ambil-data-lokasi",
+            "type"    : "POST",
+            "dataType": "json",
+            "data"    : { 
+                "id"  : id_lokasi,
+            },
+            success: function(data, textStatus, xhr)
+            {
+                console.log(data);
+                param = data;
+                $("#lokasi").val(param.lokasi);
+                $("#alamat").val(param.alamat);
+                $("#wilayah").val(param.wilayah);
+                $("#longitude").val(param.longitude);
+                $("#latitude").val(param.latitude);
+                $("#kbli").val(param.kbli);
+                $("#deskripsi_kbli").val(param.deskripsi_kbli);
+                $("#risiko").val(param.risiko);
+                $("#sektor_usaha").val(param.sektor_usaha);
+                $("#id_proyek").val(param.id_proyek);
+                $("#tanggal").val(moment(param.tanggal).format('DD-MM-YYYY'));
+            },
+            error: function(textStatus,xhr)
+            {
+                console.log("error");
+            }
+        });
+    }
+    
+    function hapusOrang()
+    {
+        var id_person =  $("input[name='personId']").val();
+        console.log(id_person);
+        
+        Swal.fire({
+            title: "Apakah yakin mau dihapus?",
+            text: "data yang sudah dihapus tidak dapat dikembalikan kembali!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, hapus saja"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax(
+                {
+                    "url"  : url_backend + "hapus-orang",
+                    "type" : "POST",
+                    "data"    : { 
+                        "id"  : id_person,
+                    },
+                    success: function(data, textStatus, xhr)
+                    {
+                        console.log("data"+data);
+                        //notif delete
+                        Swal.fire({
+                            title: "Terhapus!",
+                            text: "Data telah berhasil dihapus.",
+                            icon: "success"
+                        });
+                        
+                        table.ajax.reload();
+                    },
+                    error: function(textStatus,xhr)
+                    {
+                        console.log("error hapus form entrian orang");
+                    }
+                });
+            }
+        });
     }
     
     function setTanggal(tanggal)

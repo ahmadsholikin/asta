@@ -21,7 +21,7 @@ class Perusahaan extends ResourceController
         if(count($result)>=1)
         {
             foreach ($result as $row) {
-                $dump['hasil'] = strtoupper($row['nama_perusahaan'])." - [".$row['kbli']."] ".strtoupper($row['nama_proyek'])." - ".$row['id'];
+                $dump['hasil'] = strtoupper($row['nama_perusahaan'])." - [".$row['kbli']."] ".strtoupper($row['judul_kbli'])." - ".$row['id'];
                 array_push($data,$dump);
             }
         }

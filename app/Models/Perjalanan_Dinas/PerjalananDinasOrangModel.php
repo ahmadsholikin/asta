@@ -10,9 +10,10 @@ class PerjalananDinasOrangModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
+        "id",
         "referensi_agenda",
         "nip",
         "nama",
@@ -25,6 +26,9 @@ class PerjalananDinasOrangModel extends Model
         "urutan",
         "nominal",
         "tingkat",
+        "nomor_sppd",
+        "bank",
+        "rekening",
         "created_at",
         "created_by",
         "updated_at",
@@ -80,6 +84,6 @@ class PerjalananDinasOrangModel extends Model
 
     public function hapus($id)
     {
-        return $this->delete($id);
+        return $this->where('id', $id)->delete($id);
     }
 }

@@ -15,7 +15,8 @@ use PhpOffice\PhpWord\TemplateProcessor;
 use phpoffice\PhpWord\Settings;
 use phpoffice\phpword\IOFactory;
 use Mpdf\Mpdf;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Perjalanan_Dinas extends BaseController
 {
@@ -48,7 +49,8 @@ class Perjalanan_Dinas extends BaseController
         $builder    = $db->table("perjalanan_dinas_agenda")
                         ->select("perjalanan_dinas_agenda.*,kegiatan,progress,perjalanan_dinas_kategori.nama as kategori_nama")
                         ->join('perjalanan_dinas_kategori', 'perjalanan_dinas_kategori.id = perjalanan_dinas_agenda.kategori_id')
-                        ->where('perjalanan_dinas_agenda.deleted_at',NULL);
+                        ->where('perjalanan_dinas_agenda.deleted_at',NULL)
+                        ->orderBy("perjalanan_dinas_agenda.tanggal_berangkat","DESC");
         return DataTable::of($builder)
                         ->add('action', function($row){
                             return '<div class="dropdown">
@@ -56,7 +58,7 @@ class Perjalanan_Dinas extends BaseController
                                             <i class="bx bx-dots-vertical-rounded"></i> Aksi
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a onclick="setIdReferensiAgenda(\''.$row->id.'\');setTanggal(\''.tanggal_siasn($row->tanggal_berangkat).'\')" data-bs-toggle="modal" data-bs-target="#lokasiModal" class="dropdown-item" href="javascript:void(0);">
+                                            <a onclick="setIdReferensiAgenda(\''.$row->id.'\');setTanggal(\''.tanggal_siasn($row->tanggal_berangkat).'\');clearLokasi()" data-bs-toggle="modal" data-bs-target="#lokasiModal" class="dropdown-item" href="javascript:void(0);">
                                                 <i class="fi fi-rr-marker me-1"></i> Lokasi
                                             </a>
                                             <a onclick="setIdReferensiAgenda(\''.$row->id.'\')" data-bs-toggle="modal" data-bs-target="#orangModal" class="dropdown-item" href="javascript:void(0);">
@@ -64,7 +66,14 @@ class Perjalanan_Dinas extends BaseController
                                             </a>
                                             <div class="divider"><hr class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="'.base_url('aktivitas/perjalanan-dinas/unduh-sppd?id='.$row->id).'">
-                                                <i class="fi fi-rr-file-pdf me-1"></i> Unduh
+                                                <i class="fi fi-rr-file-pdf me-1"></i> Unduh WORD SPT dan SPPD
+                                            </a>
+                                            <div class="divider"><hr class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="'.base_url('aktivitas/perjalanan-dinas/unduh-spt-pdf?id='.$row->id).'">
+                                                <i class="fi fi-rr-file-pdf me-1"></i> Unduh PDF SPT
+                                            </a>
+                                            <a class="dropdown-item" href="'.base_url('aktivitas/perjalanan-dinas/unduh-sppd-pdf?id='.$row->id).'">
+                                                <i class="fi fi-rr-file-pdf me-1"></i> Unduh PDF SPPD
                                             </a>
                                             <div class="divider"><hr class="dropdown-divider"></div>
                                             <a onclick="edit(\''.$row->id.'\')" data-bs-toggle="modal" data-bs-target="#tambahModal" class="dropdown-item" href="javascript:void(0);">
@@ -75,6 +84,21 @@ class Perjalanan_Dinas extends BaseController
                                             </a>
                                         </div>
                                     </div>';
+                        })
+                        ->add('tujuan', function($row){
+                            $lokasi  = $this->PerjalananDinasLokasiModel->where("referensi_agenda",$row->id)->findAll();
+                            $list   = "";
+                            foreach($lokasi as $key):
+                                $list.=$key['lokasi']." dan ";
+                            endforeach;
+                            
+                            $output = rtrim($list," dan ");
+                            if($row->kategori_id=='DD-PM'){
+                                return $row->kegiatan." ".$output;
+                            }
+                            else {
+                                return $row->kegiatan;
+                            }
                         })
                         ->add('tanggal', function($row){
                             if($row->tanggal_berangkat==$row->tanggal_pulang)
@@ -89,9 +113,10 @@ class Perjalanan_Dinas extends BaseController
                         ->add('orang', function($row){
                             $orang  = $this->PerjalananDinasOrangModel->where("referensi_agenda",$row->id)->findAll();
                             $list   = "";
-                            foreach($orang as $row):
-                                $list.="<li><a class='dropdown-item' href='#'>".$row['nama']."</a></li>";
+                            foreach($orang as $key):
+                                $list.='<li><a onclick="setIdReferensiAgendaDanPersonId(\''.$key['referensi_agenda'].'\',\''.$key['id'].'\')" data-bs-toggle="modal" data-bs-target="#orangModal" class="dropdown-item" href="javascript:void(0);">'.$key['nama'].'</a></li>';
                             endforeach;
+                            
                             if(count($orang)>=1)
                             {
                                 $var    = "<div class='dropdwon'>
@@ -108,8 +133,8 @@ class Perjalanan_Dinas extends BaseController
                         ->add('lokasi', function($row){
                             $lokasi  = $this->PerjalananDinasLokasiModel->where("referensi_agenda",$row->id)->findAll();
                             $list   = "";
-                            foreach($lokasi as $row):
-                                $list.="<li><a class='dropdown-item' href='#'>".$row['lokasi']."</a></li>";
+                            foreach($lokasi as $key):
+                                $list.='<li><a onclick="setIdReferensiAgendaDanLokasiId(\''.$key['referensi_agenda'].'\',\''.$key['id'].'\')" data-bs-toggle="modal" data-bs-target="#lokasiModal" class="dropdown-item" href="javascript:void(0);">'.$key['lokasi'].'</a></li>';
                             endforeach;
                             if(count($lokasi)>=1)
                             {
@@ -187,6 +212,17 @@ class Perjalanan_Dinas extends BaseController
             echo 'Akses Ditolak';
         }
     }
+    
+    public function ambilDataOrang()
+    {
+        if ($this->request->isAJAX()) {
+            $id     = $this->request->getPost('id');
+            $data   = $this->PerjalananDinasOrangModel->tampilkanBerdasarkanId($id);
+            echo json_encode($data,true);
+        } else { 
+            echo 'Akses Ditolak';
+        }
+    }
 
     public function infoASN()
     {
@@ -211,15 +247,37 @@ class Perjalanan_Dinas extends BaseController
             $param["jabatan"]          = $this->request->getPost("jabatan");
             $param["tingkat"]          = $this->request->getPost("tingkat");
             $param["referensi_agenda"] = $this->request->getPost("referensi_agenda");
+            $param["bank"]             = $this->request->getPost("bank");
+            $param["rekening"]         = $this->request->getPost("rekening");
+            
             $exist = $this->PerjalananDinasOrangModel
                     ->where("referensi_agenda",$this->request->getPost("referensi_agenda"))
                     ->where("nip",$this->request->getPost("nip"))
-                    ->find();
+                    ->findAll();
+                    
             if(!empty($exist))
             {
-                $param['id'] = $exist['id'];
+                $param['id'] = $exist[0]['id'];
             }
+            elseif(!empty($this->request->getPost("personId")))
+            {
+                $param['id'] = $this->request->getPost("personId");
+            }
+            
             $this->PerjalananDinasOrangModel->simpan($param);
+            
+        }
+        else {
+            echo "illegal Access :P";
+        }
+    }
+    
+    
+    public function hapusOrang()
+    {
+        if ($this->request->isAJAX()) {
+            $id = $this->request->getPost('id');
+            echo $this->PerjalananDinasOrangModel->hapus($id);
         }
         else {
             echo "illegal Access :P";
@@ -271,15 +329,49 @@ class Perjalanan_Dinas extends BaseController
     public function tambahLokasi()
     {
         if ($this->request->isAJAX()) {
-            $param['id']               = null;          
-            $param["tanggal"]          = tanggal_Ymd($this->request->getPost("tanggal"));
-            $param["lokasi"]           = $this->request->getPost("lokasi");
-            $param["wilayah"]          = $this->request->getPost("wilayah");
+            $param['id']               = null;
             $param["referensi_agenda"] = $this->request->getPost("referensi_agenda");
+            $param["lokasi"]           = $this->request->getPost("lokasi");
+            $param["kbli"]             = $this->request->getPost("kbli");
+            $param["risiko"]           = $this->request->getPost("risiko");
+            $param["deskripsi_kbli"]   = $this->request->getPost("deskripsi_kbli");
+            $param["sektor_usaha"]     = $this->request->getPost("sektor_usaha");
+            $param["alamat"]           = $this->request->getPost("alamat");
+            $param["wilayah"]          = $this->request->getPost("wilayah");
+            $param["longitude"]        = $this->request->getPost("longitude");
+            $param["latitude"]         = $this->request->getPost("latitude");
+            $param["id_proyek"]        = $this->request->getPost("id_proyek");
+            $param["tanggal"]          = tanggal_Ymd($this->request->getPost("tanggal"));
+            
+            $exist = $this->PerjalananDinasLokasiModel
+                    ->where("referensi_agenda",$this->request->getPost("referensi_agenda"))
+                    ->where("id_proyek",$this->request->getPost("id_proyek"))
+                    ->findAll();
+                    
+            if(!empty($exist))
+            {
+                $param['id'] = $exist[0]['id'];
+            }
+            elseif(!empty($this->request->getPost("id_lokasi")))
+            {
+                $param['id'] = $this->request->getPost("id_lokasi");
+            }
+            
             $this->PerjalananDinasLokasiModel->simpan($param);
         }
         else {
             echo "illegal Access :P";
+        }
+    }
+    
+    public function ambilDataLokasi()
+    {
+        if ($this->request->isAJAX()) {
+            $id     = $this->request->getPost('id');
+            $data   = $this->PerjalananDinasLokasiModel->tampilkanBerdasarkanId($id);
+            echo json_encode($data,true);
+        } else { 
+            echo 'Akses Ditolak';
         }
     }
     
@@ -348,26 +440,26 @@ class Perjalanan_Dinas extends BaseController
         {
             if(count($data_lokasi)==1)
             {
-                $tujuan     = $data_lokasi[0]['lokasi']." ( ".$data_lokasi[0]['wilayah']." )";
-                $tujuan_1   = $data_lokasi[0]['lokasi']." ( ".$data_lokasi[0]['wilayah']." )";
+                $tujuan     = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].")";
+                $tujuan_1   = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].")";
                 //tanggal
                 $tanggal_1  = tanggal_indo($data_lokasi[0]['tanggal']);
             }
             else if(count($data_lokasi)==2)
             {
-                $tujuan     = $data_lokasi[0]['lokasi']." ( ".$data_lokasi[0]['wilayah']." ) dan ".$data_lokasi[1]['lokasi']." ( ".$data_lokasi[1]['wilayah']." )";
-                $tujuan_1   = $data_lokasi[0]['lokasi']." ( ".$data_lokasi[0]['wilayah']." )";
-                $tujuan_2   = $data_lokasi[1]['lokasi']." ( ".$data_lokasi[1]['wilayah']." )";
+                $tujuan     = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].") dan ".$data_lokasi[1]['lokasi']." (Kec. ".$data_lokasi[1]['wilayah'].")";
+                $tujuan_1   = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].")";
+                $tujuan_2   = $data_lokasi[1]['lokasi']." (Kec. ".$data_lokasi[1]['wilayah'].")";
                 //tanggal
                 $tanggal_1  = tanggal_indo($data_lokasi[0]['tanggal']);
                 $tanggal_2  = tanggal_indo($data_lokasi[1]['tanggal']);
             }
             else
             {
-                $tujuan     = $data_lokasi[0]['lokasi']." ( ".$data_lokasi[0]['wilayah']." ) dan ".$data_lokasi[1]['lokasi']." ( ".$data_lokasi[1]['wilayah']." ) dan ".$data_lokasi[2]['lokasi']." ( ".$data_lokasi[2]['wilayah']." )";
-                $tujuan_1   = $data_lokasi[0]['lokasi']." ( ".$data_lokasi[0]['wilayah']." )";
-                $tujuan_2   = $data_lokasi[1]['lokasi']." ( ".$data_lokasi[1]['wilayah']." )";
-                $tujuan_3   = $data_lokasi[2]['lokasi']." ( ".$data_lokasi[2]['wilayah']." )";
+                $tujuan     = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].") dan ".$data_lokasi[1]['lokasi']." (Kec. ".$data_lokasi[1]['wilayah'].") dan ".$data_lokasi[2]['lokasi']." (Kec. ".$data_lokasi[2]['wilayah'].")";
+                $tujuan_1   = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].")";
+                $tujuan_2   = $data_lokasi[1]['lokasi']." (Kec. ".$data_lokasi[1]['wilayah'].")";
+                $tujuan_3   = $data_lokasi[2]['lokasi']." (Kec. ".$data_lokasi[2]['wilayah'].")";
                 //tanggal
                 $tanggal_1  = tanggal_indo($data_lokasi[0]['tanggal']);
                 $tanggal_2  = tanggal_indo($data_lokasi[1]['tanggal']);
@@ -432,8 +524,6 @@ class Perjalanan_Dinas extends BaseController
         $templateProcessor->cloneRowAndSetValues('id', $data_pengikut);
         $templateProcessor->setValue("tujuan",$tujuan);
         
-        
-        
         header("Content-Description: File Transfer");
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         header('Content-Transfer-Encoding: binary');
@@ -441,5 +531,258 @@ class Perjalanan_Dinas extends BaseController
         header('Expires: 0');
         header("Content-Disposition: attachment; filename=".$filename.".docx");
         $templateProcessor->saveAs('php://output');
+    }
+    
+    //pdf
+    public function unduhSptPdf()
+    {
+        $id         = $this->request->getGet('id');
+        //data
+        //orang yang melaksanakan
+        $pengikut      = $this->PerjalananDinasOrangModel->where('referensi_agenda',$id)->get()->getResultArray();
+        $data_pengikut = array();
+        $i             = 1;
+        foreach($pengikut as $row)
+        {
+            $dump               = array();
+            $dump['id']         = $i;
+            $dump['nama']       = $row['nama'];
+            $dump['nama_gelar'] = $row['nama_gelar'];
+            $dump['nip']        = substr($row['nip'],0,1)>=2?'':$row['nip'];
+            $dump['pangkat']    = $row['pangkat'];
+            $dump['golru']      = $row['golru'];
+            $dump['jabatan']    = $row['jabatan'];
+            $dump['opd']        = $row['opd'];
+            $dump['eselon']     = $row['eselon'];
+            $dump['tingkat']    = $row['tingkat'];
+            array_push($data_pengikut, $dump);
+            $i++;
+        }
+        
+        //lokasi
+        $lokasi      = $this->PerjalananDinasLokasiModel->where('referensi_agenda',$id)->get()->getResultArray();
+        //hari tanggal
+        //agenda
+        $agenda            = $this->PerjalananDinasAgendaModel->where('id',$id)->get()->getResultArray();
+        $tanggal_berangkat = tanggal_indo($agenda[0]['tanggal_berangkat']);
+        $tanggal_pulang    = tanggal_indo($agenda[0]['tanggal_pulang']);
+        
+        $tujuan  = $agenda[0]['kegiatan'];
+        $date1   = $agenda[0]['tanggal_berangkat'];
+        $date2   = $agenda[0]['tanggal_pulang'];
+        $tanggal = "";
+        $hari    = "";
+        
+        if($date1<>$date2)
+        {
+            $tanggal = $tanggal_berangkat. " sampai ".$tanggal_pulang;
+            $hari    = hari($tanggal_berangkat). " sampai ".hari($tanggal_pulang);
+        }
+        else
+        {
+            $tanggal    = $tanggal_berangkat;
+            $hari       = hari($tanggal_berangkat);
+        }
+        
+        //end of data
+        $filename   = "SPT-DD-".$id."-".date('Y-m-d-His');
+        
+        $parser['pengikut'] = $data_pengikut;
+        $parser['hari']     = $hari;
+        $parser['tujuan']   = $tujuan;
+        $parser['lokasi']   = $lokasi;
+        $parser['tanggal']  = $tanggal;
+        $view               = view($this->path_view . 'pdf-spt',$parser);
+        //proses generate pdf
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new Dompdf($options);
+
+        $dompdf->loadHtml($view);
+        $dompdf->setPaper('folio', 'portrait');
+        $dompdf->render();
+        $dompdf->stream($filename.'.pdf');
+        //file_put_contents($direktori.$filename, $dompdf->output());
+    }
+    
+    public function unduhSppdpdf()
+    {
+        $id         = $this->request->getGet('id');
+        //data
+        //orang yang melaksanakan
+        $pengikut      = $this->PerjalananDinasOrangModel->where('referensi_agenda',$id)->get()->getResultArray();
+        $data_pengikut = array();
+        $i             = 1;
+        foreach($pengikut as $row)
+        {
+            $dump               = array();
+            $dump['id']         = $i;
+            $dump['nama']       = $row['nama'];
+            $dump['nama_gelar'] = $row['nama_gelar'];
+            $dump['nip']        = substr($row['nip'],0,1)>=2?'':$row['nip'];
+            $dump['pangkat']    = $row['pangkat'];
+            $dump['golru']      = $row['golru'];
+            $dump['jabatan']    = $row['jabatan'];
+            $dump['opd']        = $row['opd'];
+            $dump['eselon']     = $row['eselon'];
+            $dump['tingkat']    = $row['tingkat'];
+            array_push($data_pengikut, $dump);
+            $i++;
+        }
+        
+        //lokasi
+        $lokasi      = $this->PerjalananDinasLokasiModel->where('referensi_agenda',$id)->get()->getResultArray();
+        //hari tanggal
+        //agenda
+        $agenda            = $this->PerjalananDinasAgendaModel->where('id',$id)->get()->getResultArray();
+        $tanggal_berangkat = tanggal_indo($agenda[0]['tanggal_berangkat']);
+        $tanggal_pulang    = tanggal_indo($agenda[0]['tanggal_pulang']);
+        
+        $tujuan  = $agenda[0]['kegiatan'];
+        $date1   = $agenda[0]['tanggal_berangkat'];
+        $date2   = $agenda[0]['tanggal_pulang'];
+        $tanggal = "";
+        $hari    = "";
+        
+        if($date1<>$date2)
+        {
+            $tanggal = $tanggal_berangkat. " sampai ".$tanggal_pulang;
+            $hari    = hari($tanggal_berangkat). " sampai ".hari($tanggal_pulang);
+        }
+        else
+        {
+            $tanggal    = $tanggal_berangkat;
+            $hari       = hari($tanggal_berangkat);
+        }
+        
+        //info detail lokasi
+        //lokasi
+        $lokasi         = $this->PerjalananDinasLokasiModel->where('referensi_agenda',$id)->get()->getResultArray();
+        $data_lokasi    = array();
+        $j              = 1;
+        foreach ($lokasi as $row)
+        {
+            $dump               = array();
+            $dump['id']         = $i;
+            $dump['lokasi']     = $row['lokasi'];
+            $dump['wilayah']    = $row['wilayah'];
+            $dump['alamat']     = $row['alamat'];
+            $dump['tanggal']    = $row['tanggal'];
+            array_push($data_lokasi, $dump);
+            $i++;
+        }
+        
+        $tujuan    = "";
+        $tujuan_1  = "";
+        $tujuan_2  = "";
+        $tujuan_3  = "";
+        $tanggal_1 = "";
+        $tanggal_2 = "";
+        $tanggal_3 = "";
+        
+        if(!empty($data_lokasi))
+        {
+            if(count($data_lokasi)==1)
+            {
+                $tujuan     = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].")";
+                $tujuan_1   = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].")";
+                //tanggal
+                $tanggal_1  = tanggal_indo($data_lokasi[0]['tanggal']);
+            }
+            else if(count($data_lokasi)==2)
+            {
+                $tujuan     = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].") dan ".$data_lokasi[1]['lokasi']." (Kec. ".$data_lokasi[1]['wilayah'].")";
+                $tujuan_1   = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].")";
+                $tujuan_2   = $data_lokasi[1]['lokasi']." (Kec. ".$data_lokasi[1]['wilayah'].")";
+                //tanggal
+                $tanggal_1  = tanggal_indo($data_lokasi[0]['tanggal']);
+                $tanggal_2  = tanggal_indo($data_lokasi[1]['tanggal']);
+            }
+            else
+            {
+                $tujuan     = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].") dan ".$data_lokasi[1]['lokasi']." (Kec. ".$data_lokasi[1]['wilayah'].") dan ".$data_lokasi[2]['lokasi']." (Kec. ".$data_lokasi[2]['wilayah'].")";
+                $tujuan_1   = $data_lokasi[0]['lokasi']." (Kec. ".$data_lokasi[0]['wilayah'].")";
+                $tujuan_2   = $data_lokasi[1]['lokasi']." (Kec. ".$data_lokasi[1]['wilayah'].")";
+                $tujuan_3   = $data_lokasi[2]['lokasi']." (Kec. ".$data_lokasi[2]['wilayah'].")";
+                //tanggal
+                $tanggal_1  = tanggal_indo($data_lokasi[0]['tanggal']);
+                $tanggal_2  = tanggal_indo($data_lokasi[1]['tanggal']);
+                $tanggal_3  = tanggal_indo($data_lokasi[2]['tanggal']);
+            }
+        }
+        
+        //agenda
+        $agenda            = $this->PerjalananDinasAgendaModel->where('id',$id)->get()->getResultArray();
+        $tanggal_berangkat = tanggal_indo($agenda[0]['tanggal_berangkat']);
+        $tanggal_pulang    = tanggal_indo($agenda[0]['tanggal_pulang']);
+        $tanggal_surat     = tanggal_indo($agenda[0]['tanggal_surat']);
+        $nomor_surat       = $agenda[0]['nomor_surat'];
+        
+        $date1    = $agenda[0]['tanggal_berangkat'];
+        $date2    = $agenda[0]['tanggal_pulang'];
+        $diff     = abs(strtotime($date2) - strtotime($date1));
+        $years    = floor($diff / (365*60*60*24));
+        $months   = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+        $days     = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+        $days    += 1;
+        $penyebut = penyebut($days);
+        
+        //tanggal
+        $tanggal = "";
+        if($date1<>$date2)
+        {
+            $tanggal = $tanggal_berangkat. " sampai ".$tanggal_pulang;
+            $hari    = hari($tanggal_berangkat). " sampai ".hari($tanggal_pulang);
+        }
+        else
+        {
+            $tanggal    = $tanggal_berangkat;
+            $hari       = hari($tanggal_berangkat);
+        }
+        //info agenda
+        $parser['tanggal']           = $tanggal;
+        $parser['hari']              = $hari;
+        $parser['tanggal_naskah']    = $tanggal_surat;
+        $parser['nomor_naskah']      = $nomor_surat;
+        $parser['tanggal_berangkat'] = $tanggal_berangkat;
+        $parser['tanggal_pulang']    = $tanggal_pulang;
+        $parser['kegiatan']          = $agenda[0]['kegiatan'];
+        $parser['jumlah_hari']       = $days;
+        $parser['penyebut']          = $penyebut;
+        $parser['bulan_tahun']       = tanggal_indo($agenda[0]['tanggal_surat']);
+          //tujuan dan tanggal tujuan
+        $parser['tujuan_1']  = $tujuan_1;
+        $parser['tujuan_2']  = $tujuan_2;
+        $parser['tujuan_3']  = $tujuan_3;
+        $parser['tanggal_1'] = $tanggal_1;
+        $parser['tanggal_2'] = $tanggal_2;
+        $parser['tanggal_3'] = $tanggal_3;
+        //PPTK
+        $parser['pptk_id']      = $agenda[0]['pptk_id'];
+        $parser['pptk_nama']    = $agenda[0]['pptk_nama'];
+        $parser['pptk_jabatan'] = $agenda[0]['pptk_jabatan'];
+        $parser['pptk_gol']     = $agenda[0]['pptk_gol'];
+        $parser['pptk_pangkat'] = $agenda[0]['pptk_pangkat'];
+
+        
+        //end of data
+        $filename   = "SPPD-DD-".$id."-".date('Y-m-d-His');
+        
+        $parser['pengikut'] = $data_pengikut;
+        $parser['hari']     = $hari;
+        $parser['tujuan']   = $tujuan;
+        $parser['lokasi']   = $lokasi;
+        $parser['tanggal']  = $tanggal;
+        $view               = view($this->path_view . 'pdf-sppd',$parser);
+        //proses generate pdf
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new Dompdf($options);
+
+        $dompdf->loadHtml($view);
+        $dompdf->setPaper('folio', 'portrait');
+        $dompdf->render();
+        $dompdf->stream($filename.'.pdf');
+        //file_put_contents($direktori.$filename, $dompdf->output());
     }
 }

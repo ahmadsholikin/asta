@@ -46,11 +46,17 @@ $routes->group('aktivitas', function ($routes) {
         $routes->post('simpan', $root_menu . '::simpan');
         $routes->post('hapus', $root_menu . '::hapus');
         //
-        $routes->post('tambah-orang', $root_menu . '::tambahOrang');
         $routes->post('tambah-lokasi', $root_menu . '::tambahLokasi');
         $routes->get('detail-perusahaan', $root_menu . '::detailPerusahaan');
+        $routes->post('ambil-data-lokasi', $root_menu . '::ambilDataLokasi');
         //unduh
         $routes->get('unduh-sppd', $root_menu . '::unduhSppd');
+        $routes->get('unduh-spt-pdf', $root_menu . '::unduhSptPdf');
+        $routes->get('unduh-sppd-pdf', $root_menu . '::unduhSppdPdf');
+        //
+        $routes->post('tambah-orang', $root_menu . '::tambahOrang');
+        $routes->post('ambil-data-orang', $root_menu . '::ambilDataOrang');
+        $routes->post('hapus-orang', $root_menu . '::hapusOrang');
     });
 });
 
@@ -61,6 +67,7 @@ $routes->group('laporan', function ($routes) {
         $root_menu = 'Backend\Laporan\Penerimaan_DD';
         //pages
         $routes->add('/', $root_menu . '::index');
+        $routes->post('eksport', $root_menu . '::eksport');
     });
 });
 
