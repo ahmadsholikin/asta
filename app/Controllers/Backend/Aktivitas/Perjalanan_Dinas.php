@@ -76,6 +76,9 @@ class Perjalanan_Dinas extends BaseController
                                                 <i class="fi fi-rr-file-pdf me-1"></i> Unduh PDF SPPD
                                             </a>
                                             <div class="divider"><hr class="dropdown-divider"></div>
+                                            <a onclick="jurnal(\''.$row->id.'\')" data-bs-toggle="modal" data-bs-target="#jurnalModal" class="dropdown-item" href="javascript:void(0);">
+                                                <i class="fi fi-rr-comment-alt me-1"></i> Jurnal
+                                            </a>
                                             <a onclick="edit(\''.$row->id.'\')" data-bs-toggle="modal" data-bs-target="#tambahModal" class="dropdown-item" href="javascript:void(0);">
                                                 <i class="fi fi-rr-edit me-1"></i> Edit
                                             </a>
@@ -784,5 +787,20 @@ class Perjalanan_Dinas extends BaseController
         $dompdf->render();
         $dompdf->stream($filename.'.pdf');
         //file_put_contents($direktori.$filename, $dompdf->output());
+    }
+    
+    public function ambilDataOPD()
+    {
+        if ($this->request->isAJAX()) {
+            $id = $this->request->getPost('id');
+            $data = $this->PerjalananDinasOrangModel->groupOPD($id);
+            $result = "<option selected disabled value='-'> -- Pilihan OPD -- </option>";
+            foreach ($data as $key) {
+                $result.='<option value="'.$key['opd'].'">'.$key['opd'].'</option>';
+            }
+            echo $result;
+        } else { 
+            echo 'Akses Ditolak';
+        }
     }
 }

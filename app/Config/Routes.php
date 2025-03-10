@@ -58,6 +58,8 @@ $routes->group('aktivitas', function ($routes) {
         $routes->post('tambah-orang', $root_menu . '::tambahOrang');
         $routes->post('ambil-data-orang', $root_menu . '::ambilDataOrang');
         $routes->post('hapus-orang', $root_menu . '::hapusOrang');
+        //jurnal
+        $routes->post('ambil-data-opd', $root_menu. '::ambilDataOPD');
     });
 });
 

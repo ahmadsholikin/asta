@@ -1,5 +1,7 @@
+<link rel="stylesheet" href="<?=base_url();?>public/libs/summernote-0.9.0-dist/summernote-bs4.min.css">
 <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.2.1/js/dataTables.bootstrap5.js"></script>
+<script src="<?=base_url();?>public/libs/summernote-0.9.0-dist/summernote-bs5.min.js"></script>
 <script>
     const url_backend = "<?= base_url(); ?>aktivitas/perjalanan-dinas/";
     let responseData;
@@ -543,4 +545,37 @@
             }
         });
     });
+    
+    $(document).ready(function() {
+        $('#catatan').summernote({
+            placeholder: 'Tulis hasil atau rekomendasi disini...',
+            tabsize: 2,
+            height: 220,
+            toolbar: [
+                ['font', ['bold', 'underline']],
+                ['para', ['ul', 'ol', 'paragraph']]
+            ]
+        });
+    });
+    
+    function jurnal(id_agenda)
+    {
+        $.ajax(
+        {
+            "url"     : url_backend + "ambil-data-opd",
+            "type"    : "POST",
+            "data"    : { 
+                "id"  : id_agenda,
+            },
+            success: function(data, textStatus, xhr)
+            {
+                console.log(data);
+                $("#opd_jurnal").html(data);
+            },
+            error: function(textStatus,xhr)
+            {
+                console.log("error");
+            }
+        });
+    }
 </script>

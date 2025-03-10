@@ -56,7 +56,7 @@
         <div class="modal-content">
             <form action="<?=base_url();?>aktivitas/perjalanan-dinas/tambah" id="formEntrian" name="formEntrian" method="POST" data-toggle='validator' role='form' onsubmit='return false;'>
                 <div class="modal-header">
-                    <h6 class="modal-title fs-5" id="staticBackdropLabel">Lengkapi Formulir</h6>
+                    <h6 class="modal-title fs-6" id="staticBackdropLabel">Lengkapi Formulir</h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -141,7 +141,7 @@
         <div class="modal-content">
             <form action="<?=base_url();?>aktivitas/perjalanan-dinas/tambah-orang" id="formEntrianOrang" name="formEntrianOrang" method="POST" data-toggle='validator' role='form' onsubmit='return false;'>
                 <div class="modal-header">
-                    <h6 class="modal-title fs-5" id="staticBackdropLabel">Tambah Keikutsertaan Personil</h6>
+                    <h6 class="modal-title fs-6" id="staticBackdropLabel">Tambah Keikutsertaan Personil</h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -236,7 +236,7 @@
         <div class="modal-content">
             <form action="<?=base_url();?>aktivitas/perjalanan-dinas/tambah-lokasi" id="formEntrianLokasi" name="formEntrianLokasi" method="POST" data-toggle='validator' role='form' onsubmit='return false;'>
                 <div class="modal-header">
-                    <h6 class="modal-title fs-5" id="staticBackdropLabel">Tambah Lokasi Tujuan</h6>
+                    <h6 class="modal-title fs-6" id="staticBackdropLabel">Tambah Lokasi Tujuan</h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -316,6 +316,44 @@
                             <input type="text" class="form-control form-control-sm datepicker" name="tanggal" id="tanggal" placeholder="Entrian..." autocomplete="off">
                             <label class="input-group-text" for="inputGroupSelect02"><i class="fi fi-rr-calendar"></i></label>
                         </div>
+                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-teal" data-bs-dismiss="modal" id="btnSimpan">Simpan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- modal -->
+<div class="modal fade" id="jurnalModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="<?=base_url();?>aktivitas/perjalanan-dinas/tambah-jurnal" id="formEntrianJurnal" name="formEntrianJurnal" method="POST" data-toggle='validator' role='form' onsubmit='return false;'>
+                <div class="modal-header">
+                    <h6 class="modal-title fs-6" id="staticBackdropLabel">Jurnal Catatan Kunjungan Dinas</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label for="kategori" class="form-label form-label-sm">Kategori</label>
+                        <select class="form-control form-control-sm" id="kategori" name="kategori">
+                            <option value="Hasil">Hasil</option>
+                            <option value="Rekomendasi">Rekomendasi</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="opd_jurnal" class="form-label form-label-sm">OPD Pencatat</label>
+                        <select class="form-control form-control-sm" id="opd_jurnal" name="opd_jurnal">
+                            <option value="-" disabled selected>-- Pilihan OPD --</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="nip" class="form-label form-label-sm">Catatan</label>
+                        <textarea type="text" class="form-control form-control-sm" name="catatan" id="catatan"></textarea>
                         <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
                     </div>
                 </div>

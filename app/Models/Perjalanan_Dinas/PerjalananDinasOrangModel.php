@@ -86,4 +86,10 @@ class PerjalananDinasOrangModel extends Model
     {
         return $this->where('id', $id)->delete($id);
     }
+    
+    public function groupOPD($id)
+    {
+        $query = "SELECT opd FROM perjalanan_dinas_orang WHERE referensi_agenda='".$id."' GROUP BY opd ORDER BY opd ASC";
+        return $this->query($query)->getResultArray();
+    }
 }
