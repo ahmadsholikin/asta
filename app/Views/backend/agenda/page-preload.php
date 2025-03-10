@@ -2,60 +2,35 @@
     const entriAgendaModal  = new bootstrap.Modal('#entriAgendaModal', {keyboard: false});
     const calendarEl        = document.getElementById('calendar');
     const calendar          = new FullCalendar.Calendar(calendarEl, {
-                                    initialView: 'dayGridMonth',
-                                    locale: 'id',
-                                    selectable: true,
-                                    editable:true,
-                                    dayMaxEvents:2,
-                                    moreLinkClick:"popover",
+                                    initialView  : 'dayGridMonth',
+                                    locale       : 'id',
+                                    selectable   : true,
+                                    editable     : true,
+                                    dayMaxEvents : 2,
+                                    moreLinkClick: "popover",
                                     events: [
+                                                <?php 
+                                                    foreach ($agenda as $key) :
+                                                ?>
                                                 {
-                                                    start: '2025-01-01',
-                                                    end: '2025-01-01',
-                                                    title:"Zoom",
+                                                    start: '<?=$key['tanggal_berangkat'];?>',
+                                                    end: '<?=$key['tanggal_pulang'];?>',
+                                                    title:"<?=$key['kategori'];?> : <?=$key['lokasi'];?>",
                                                     color: 'blue',
                                                     extendedProps: {
-                                                        info: 'informasi here',
-                                                        keterangan : 'keterangan here'
+                                                        info      : "<?=$key['kategori'];?>",
+                                                        keterangan: "<?=$key['kegiatan'];?> <?=$key['lokasi'];?>",
+                                                        orang     : "<?=$key['orang'];?>"
                                                     },
                                                 },
-                                                {
-                                                    start: '2025-01-01',
-                                                    end: '2025-01-01',
-                                                    title:"Rapat",
-                                                    color: 'green',
-                                                    extendedProps: {
-                                                        info: 'informasi here',
-                                                        keterangan : 'keterangan here'
-                                                    },
-                                                },
-                                                {
-                                                    start: '2025-01-01',
-                                                    end: '2025-01-01',
-                                                    title:"Dinas Dalam",
-                                                    color: 'purple',
-                                                    extendedProps: {
-                                                        info: 'informasi here',
-                                                        keterangan : 'keterangan here'
-                                                    },
-                                                },
-                                                {
-                                                    start: '2025-01-01',
-                                                    end: '2025-01-01',
-                                                    title:"Dinas Luar",
-                                                    color: 'red',
-                                                    extendedProps: {
-                                                        info: 'informasi here',
-                                                        keterangan : 'keterangan here'
-                                                    },
-                                                },
+                                                <?php endforeach; ?>
                                     ],
                                     eventClick: function(info) {
                                         let obj     = info.event.extendedProps;
                                         let result  = Object.values(obj);
                                         Swal.fire({
-                                            title: info.event.title,
-                                            text: result[0],
+                                            title: result[1],
+                                            html: result[2],
                                         });
                                     },
                                     dateClick: function(info) {
@@ -73,9 +48,45 @@
                                             container: 'body'
                                         });
                                     },
+                                    customButtons: {
+                                        prev: {
+                                            text: 'Prev',
+                                            click: function() {
+                                                calendar.prev();
+                                                var date  = calendar.getDate();
+                                                var bulan = moment(date).format('MM');
+                                                var tahun = moment(date).format('YYYY');
+                                                listJadwal(bulan, tahun);
+                                            }
+                                        },
+                                        next: {
+                                            text: 'Next',
+                                            click: function() {
+                                                calendar.next();
+                                                var date  = calendar.getDate();
+                                                var bulan = moment(date).format('MM');
+                                                var tahun = moment(date).format('YYYY');
+                                                listJadwal(bulan, tahun)
+                                            }
+                                        },
+                                        today: {
+                                            text: 'Today',
+                                            click: function() {
+                                                calendar.today();
+                                                var date  = calendar.getDate();
+                                                var bulan = moment(date).format('MM');
+                                                var tahun = moment(date).format('YYYY');
+                                                listJadwal(bulan, tahun)
+                                            }
+                                        },
+                                    }
                                 });
 
     document.addEventListener('DOMContentLoaded', function() {
         calendar.render();
+        var date  = calendar.getDate();
+        var bulan = moment(date).format('MM');
+        var tahun = moment(date).format('YYYY');
+        listJadwal(bulan, tahun)
     })
 </script>

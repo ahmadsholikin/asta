@@ -66,6 +66,15 @@ function tanggal_m($tgl)
     }
 }
 
+function tanggal_d($tgl)
+{
+    if ($tgl == '0000-00-00') {
+        return "";
+    } else {
+        return date('d', strtotime($tgl));
+    }
+}
+
 function tanggal_Ymd($tgl)
 {
     if ($tgl == '') {

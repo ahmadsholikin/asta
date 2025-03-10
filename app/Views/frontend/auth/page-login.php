@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auth Aswatama</title>
+    <title>Auth Arjuna</title>
     <link rel="stylesheet" href="<?=base_url();?>public/assets/auth.css">
     <script src="<?=base_url();?>public/assets/auth.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,7 @@
     <div class="login-container">
         <div class="login-header">
             <img src="<?=base_url();?>public/assets/image/logo_flow.png" alt="Logo" width="46" height="48" class="d-inline-block align-text-top">
-            <h1>Hi Bro, Its Aswatama</h1>
+            <h1>Hi Bro, Its Arjuna</h1>
             <p>Mau ngerjain apa hari ini, sini tak bantu</p>
         </div>
         <form id="loginForm" onsubmit="return handleLogin(event)">

@@ -28,6 +28,7 @@ $routes->group('agenda', function ($routes) {
     $root_menu = 'Backend\Agenda';
     //pages
     $routes->add('/', $root_menu . '::index');
+    $routes->post('list-jadwal', $root_menu. '::listJadwal');
 });
 
 $routes->get('perusahaan/(:any)', 'Perusahaan::index/$1');

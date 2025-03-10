@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bootstrap demo</title>
+        <title>Hi Bro, It's Arjuna</title>
         <link rel="stylesheet" href="<?=base_url();?>public/assets/bootstrap.css">
         <link rel="stylesheet" href="<?=base_url();?>public/libs/select2/dist/css/select2.min.css">
         <link rel="stylesheet" href="<?=base_url();?>public/libs/select2/dist/select2-bootstrap.min.css">
@@ -30,7 +30,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="<?=base_url();?>public/assets/image/logo_flow.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                    <b>Aswatama</b>
+                    <b>Arjuna</b>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

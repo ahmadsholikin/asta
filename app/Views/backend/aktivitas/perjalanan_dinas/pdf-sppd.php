@@ -277,7 +277,7 @@
                 <td class="box-3" colspan="2">
                     <ol type="a">
                         <li><?=$key['pangkat'];?>, <?=$key['golru'];?></li>
-                        <li><?=$key['jabatan'];?> pada <?=$key['opd'];?></li>
+                        <li><?=$key['jabatan'];?> pada <?=str_replace("Dan","dan",ucwords(strtolower(($key['opd']))));?> Kab. Magelang</li>
                         <li><?=$key['tingkat'];?></li>
                     </ol>
                 </td>

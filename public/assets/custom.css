@@ -39,6 +39,7 @@ p{
 .breadcrumb{
     width: 100%;
     border-bottom: 1px solid #eaeaea;
+    padding: 5px 0;
 }
 
 .breadcrumb-item{
@@ -454,4 +455,12 @@ footer .copyrights p{
 
 .autoComplete_wrapper>ul>li {
     font-size: 14px;
+}
+
+.fc-event{
+    text-wrap: auto;
+}
+
+.swal2-title{
+    font-size: 1.275rem !important;
 }

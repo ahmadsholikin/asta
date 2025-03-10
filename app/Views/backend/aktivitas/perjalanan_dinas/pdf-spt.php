@@ -181,13 +181,13 @@
                 <td style="width: 10%;"></td>
                 <td style="width: 2%"></td>
                 <td style="width: 3%">5.</td>
-                <td style="width: 85%;text-align: justify;">Peraturan Daerah Nomor 11 Tahun 2023 tentang Anggaran Pendapatan dan Belanja Daerah Kabupaten Magelang Tahun Anggaran 2024 Tanggal 28 Desember 2023;</td>
+                <td style="width: 85%;text-align: justify;">Peraturan Daerah Nomor 16 Tahun 2024 tentang Anggaran Pendapatan dan Belanja Daerah Kabupaten Magelang Tahun Anggaran 2025;</td>
             </tr>
             <tr>
                 <td style="width: 10%;"></td>
                 <td style="width: 2%"></td>
                 <td style="width: 3%">6.</td>
-                <td style="width: 85%;text-align: justify;">DPPA Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu Nomor DPA/A.1/2/18.0.00.0.00.01.0000/001/2004 tanggal 16 Februari 2024;</td>
+                <td style="width: 85%;text-align: justify;">Dokumen Pelaksanaan Anggaran Nomor DPA/A.1/2.18.0.00.0.00.01.0000/001/2025;</td>
             </tr>
         </tbody>
     </table>
@@ -207,15 +207,15 @@
                 <?php } ?>
                 
                 <td style="width: 3%"><?=$i;?>.</td>
-                <td style="width: 15%;">Nama</td>
+                <td style="width: 17%;">Nama</td>
                 <td style="width: 2%">:</td>
-                <td style="width: 68%; text-align: justify;"><?=$row['nama_gelar'];?></td>
+                <td style="width: 66%; text-align: justify;"><?=$row['nama_gelar'];?></td>
             </tr>
             <tr>
                 <td style="width: 10%;"></td>
                 <td style="width: 2%"></td>
                 <td style="width: 3%"></td>
-                <td style="width: 15%;">NIP</td>
+                <td style="width: 17%;">NIP</td>
                 <td style="width: 2%">:</td>
                 <td style="width: 68%"><?=$row['nip'];?></td>
             </tr>
@@ -223,17 +223,17 @@
                 <td style="width: 10%;"></td>
                 <td style="width: 2%"></td>
                 <td style="width: 3%"></td>
-                <td style="width: 15%;">Pangkat/Gol.</td>
+                <td style="width: 17%;">Pangkat, Gol.</td>
                 <td style="width: 2%">:</td>
-                <td style="width: 68%"><?=$row['pangkat'];?>, <?=$row['golru'];?></td>
+                <td style="width: 66%"><?=$row['pangkat'];?>, <?=$row['golru'];?></td>
             </tr>
             <tr>
                 <td style="width: 10%;"></td>
                 <td style="width: 2%"></td>
                 <td style="width: 3%"></td>
-                <td style="width: 15%;">Jabatan</td>
+                <td style="width: 17%;">Jabatan</td>
                 <td style="width: 2%">:</td>
-                <td style="width: 68%; text-align: justify;"><?=$row['jabatan'];?> pada <?=$row['opd'];?></td>
+                <td style="width: 66%; text-align: justify;"><?=$row['jabatan'];?> pada <?=str_replace("Dan","dan",ucwords(strtolower(($row['opd']))));?> Kab. Magelang</td>
             </tr>
             <?php $i++;endforeach; ?>
         </tbody>
@@ -252,17 +252,17 @@
                 <td style="width: 10%;"></td>
                 <td style="width: 2%"></td>
                 <td style="width: 3%"></td>
-                <td style="width: 15%">Hari/tanggal</td>
-                <td style="width: 5%">:</td>
-                <td style="width: 65%; text-align: justify;"><?=$hari;?>, <?=$tanggal;?></td>
+                <td style="width: 17%">Hari, tanggal</td>
+                <td style="width: 2%">:</td>
+                <td style="width: 66%; text-align: justify;"><?=$hari;?>, <?=$tanggal;?></td>
             </tr>
             <tr>
                 <td style="width: 10%;"></td>
                 <td style="width: 2%"></td>
                 <td style="width: 3%"></td>
-                <td style="width: 15%">Lokasi</td>
-                <td style="width: 5%">:</td>
-                <td style="width: 65%; text-align: justify;">
+                <td style="width: 17%">Lokasi</td>
+                <td style="width: 2%">:</td>
+                <td style="width: 66%; text-align: justify;">
                 <?php $urut_lokasi=1;foreach($lokasi as $rl): ?>
                     <?=$urut_lokasi.". ".$rl['lokasi'];?><br><?=$rl['alamat'];?><br>
                 <?php $urut_lokasi++;endforeach;?>

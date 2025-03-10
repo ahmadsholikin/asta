@@ -17,43 +17,13 @@
             <h5 class=" pt-1 flex-grow-1">Agenda Kegiatan</h5>
             <h4 onclick="refreshCalendar()" class="pr-2 pt-2"><i class="fi fi-rr-add"></i></h4>
         </div>
-        <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-                <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-                <div class="d-flex gap-2 w-100 justify-content-between">
-                    <div>
-                        <h6 class="mb-0">Zoom LKPM</h6>
-                        <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
-                    </div>
-                    <p><small class="opacity-50 text-nowrap">02 Jan</small></p>
-                </div>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-                <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-                <div class="d-flex gap-2 w-100 justify-content-between">
-                    <div>
-                        <h6 class="mb-0">Zoom LKPM</h6>
-                        <p class="mb-0 opacity-75">Some placeholder content in a paragraph that goes a little longer so it wraps to a new line.</p>
-                    </div>
-                    <p><small class="opacity-50 text-nowrap">03 Jan</small></p>
-                </div>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-                <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-                <div class="d-flex gap-2 w-100 justify-content-between">
-                    <div>
-                        <h6 class="mb-0">Zoom LKPM</h6>
-                        <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
-                    </div>
-                    <p><small class="opacity-50 text-nowrap">06 Jan</small></p>
-                </div>
-            </a>
+        <div class="list-group" id="list-jadwal" style="height: 700px;overflow:hidden; overflow-y:scroll;">
+            
         </div>
     </div>
 </div>
 
 <!-- modal -->
- <!-- Modal -->
 <div class="modal fade" id="entriAgendaModal" tabindex="-1" aria-labelledby="entriAgendaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">

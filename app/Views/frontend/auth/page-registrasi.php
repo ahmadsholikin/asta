@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auth Aswatama</title>
+    <title>Auth Arjuna</title>
     <link rel="stylesheet" href="<?=base_url();?>public/assets/auth.css">
     <script src="<?=base_url();?>public/assets/auth.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
