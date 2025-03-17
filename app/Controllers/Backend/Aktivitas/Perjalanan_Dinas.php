@@ -7,6 +7,7 @@ use App\Models\Perjalanan_Dinas\PerjalananDinasAgendaModel;
 use App\Models\Perjalanan_Dinas\PerjalananDinasKategoriModel;
 use App\Models\Perjalanan_Dinas\PerjalananDinasOrangModel;
 use App\Models\Perjalanan_Dinas\PerjalananDinasLokasiModel;
+use App\Models\Perjalanan_Dinas\PerjalananDinasHasilModel;
 use App\Models\PelakuUsahaModel;
 use App\Models\KecamatanModel;
 
@@ -31,6 +32,7 @@ class Perjalanan_Dinas extends BaseController
         $this->KecamatanModel               = new KecamatanModel();
         $this->PerjalananDinasLokasiModel   = new PerjalananDinasLokasiModel();
         $this->PelakuUsahaModel             = new PelakuUsahaModel();
+        $this->PerjalananDinasHasilModel    = new PerjalananDinasHasilModel();
     }
 
     public function index()
@@ -76,7 +78,7 @@ class Perjalanan_Dinas extends BaseController
                                                 <i class="fi fi-rr-file-pdf me-1"></i> Unduh PDF SPPD
                                             </a>
                                             <div class="divider"><hr class="dropdown-divider"></div>
-                                            <a onclick="jurnal(\''.$row->id.'\')" data-bs-toggle="modal" data-bs-target="#jurnalModal" class="dropdown-item" href="javascript:void(0);">
+                                            <a class="dropdown-item" href="'.base_url('aktivitas/perjalanan-dinas/jurnal?id='.$row->id).'">
                                                 <i class="fi fi-rr-comment-alt me-1"></i> Jurnal
                                             </a>
                                             <a onclick="edit(\''.$row->id.'\')" data-bs-toggle="modal" data-bs-target="#tambahModal" class="dropdown-item" href="javascript:void(0);">
@@ -172,6 +174,8 @@ class Perjalanan_Dinas extends BaseController
         $param["tanggal_berangkat"] = tanggal_Ymd($this->request->getPost("tanggal_berangkat"));
         $param["tanggal_pulang"]    = tanggal_Ymd($this->request->getPost("tanggal_pulang"));
         $param["tanggal_surat"]     = tanggal_Ymd($this->request->getPost("tanggal_surat"));
+        $param["jam_mulai"]         = $this->request->getPost("jam_mulai");
+        $param["jam_selesai"]       = $this->request->getPost("jam_selesai");
         $param["nomor_surat"]       = $this->request->getPost("nomor_surat");
         $param["kegiatan"]          = $this->request->getPost("kegiatan");
         $param["pptk_id"]           = $pptk[0];
@@ -378,6 +382,17 @@ class Perjalanan_Dinas extends BaseController
         }
     }
     
+    public function hapusLokasi()
+    {
+        if ($this->request->isAJAX()) {
+            $id = $this->request->getPost('id');
+            echo $this->PerjalananDinasLokasiModel->hapus($id);
+        }
+        else {
+            echo "illegal Access :P";
+        }
+    }
+    
     public function detailPerusahaan()
     {
         if ($this->request->isAJAX()) {
@@ -563,7 +578,14 @@ class Perjalanan_Dinas extends BaseController
         }
         
         //lokasi
-        $lokasi      = $this->PerjalananDinasLokasiModel->where('referensi_agenda',$id)->get()->getResultArray();
+        $tujuan_lokasi  = ""; 
+        $lokasi         = $this->PerjalananDinasLokasiModel->where('referensi_agenda',$id)->get()->getResultArray();
+        foreach ($lokasi as $row_lokasi) {
+            $tujuan_lokasi.=$row_lokasi['lokasi']." dan ";
+        }
+        
+        $tujuan_lokasi = rtrim($tujuan_lokasi," dan ");
+    
         //hari tanggal
         //agenda
         $agenda            = $this->PerjalananDinasAgendaModel->where('id',$id)->get()->getResultArray();
@@ -588,7 +610,7 @@ class Perjalanan_Dinas extends BaseController
         }
         
         //end of data
-        $filename   = "SPT-DD-".$id."-".date('Y-m-d-His');
+        $filename   = "SPT DD ".preg_replace( '/[^a-z0-9\s]/i', '', $tujuan_lokasi);
         
         $parser['pengikut'] = $data_pengikut;
         $parser['hari']     = $hari;
@@ -634,7 +656,13 @@ class Perjalanan_Dinas extends BaseController
         }
         
         //lokasi
-        $lokasi      = $this->PerjalananDinasLokasiModel->where('referensi_agenda',$id)->get()->getResultArray();
+        $tujuan_lokasi  = ""; 
+        $lokasi         = $this->PerjalananDinasLokasiModel->where('referensi_agenda',$id)->get()->getResultArray();
+        foreach ($lokasi as $row_lokasi) {
+            $tujuan_lokasi.=$row_lokasi['lokasi']." dan ";
+        }
+        
+        $tujuan_lokasi = rtrim($tujuan_lokasi," dan ");
         //hari tanggal
         //agenda
         $agenda            = $this->PerjalananDinasAgendaModel->where('id',$id)->get()->getResultArray();
@@ -769,7 +797,7 @@ class Perjalanan_Dinas extends BaseController
 
         
         //end of data
-        $filename   = "SPPD-DD-".$id."-".date('Y-m-d-His');
+        $filename   = "SPPD-DD-".preg_replace( '/[^a-z0-9\s]/i', '', $tujuan_lokasi)."-".date('Y-m-d-His');
         
         $parser['pengikut'] = $data_pengikut;
         $parser['hari']     = $hari;
@@ -788,17 +816,41 @@ class Perjalanan_Dinas extends BaseController
         $dompdf->stream($filename.'.pdf');
         //file_put_contents($direktori.$filename, $dompdf->output());
     }
-    
+
+
+    public function jurnal()
+    {
+        $id                 = $this->request->getGet('id');
+        $data['lokasi']     = $this->PerjalananDinasLokasiModel->where('referensi_agenda',$id)->get()->getResultArray();
+        $data['opd']        = $this->PerjalananDinasOrangModel->groupOPD($id);
+        $data['preload']    = null;
+        $param['page']      = view($this->path_view . 'page-jurnal',$data);
+        return view($this->theme, $param);
+    }
+
     public function ambilDataOPD()
     {
         if ($this->request->isAJAX()) {
-            $id = $this->request->getPost('id');
-            $data = $this->PerjalananDinasOrangModel->groupOPD($id);
+            $id     = $this->request->getPost('id');
+            $data   = $this->PerjalananDinasOrangModel->groupOPD($id);
             $result = "<option selected disabled value='-'> -- Pilihan OPD -- </option>";
             foreach ($data as $key) {
                 $result.='<option value="'.$key['opd'].'">'.$key['opd'].'</option>';
             }
             echo $result;
+        } else { 
+            echo 'Akses Ditolak';
+        }
+    }
+    
+    public function tambahJurnal()
+    {
+        if ($this->request->isAJAX()) {
+            $data["id_lokasi"]  = $this->request->getPost('id_lokasi');
+            $data["kategori"]   = $this->request->getPost('kategori');
+            $data["opd"]        = $this->request->getPost('opd');
+            $data["keterangan"] = $this->request->getPost('keterangan');
+            $this->PerjalananDinasHasilModel->simpan($data);
         } else { 
             echo 'Akses Ditolak';
         }

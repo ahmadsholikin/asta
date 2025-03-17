@@ -16,6 +16,8 @@ class PerjalananDinasAgendaModel extends Model
         "kategori_id",
         "tanggal_berangkat",
         "tanggal_pulang",
+        "jam_mulai",
+        "jam_selesai",
         "tanggal_surat",
         "nomor_surat",
         "kegiatan",

@@ -9,7 +9,7 @@
 <body>
     <!-- template -->
     <style type="text/css">
-        @page { margin:  45px 35px 55px 55px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; }
+        @page { margin:  45px 35px 45px 55px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; }
         body { margin: 0px; }
         /** Define the footer rules **/
         footer {
@@ -56,23 +56,26 @@
         .tg .tg-kab {
             font-weight: 400;
             text-align: center;
-            font-size: 17px;
-            line-height: 17px;
+            font-size: 18px;
+            line-height: 18px;
             margin: 0;
-            padding-left:15px;
+            padding-bottom: 0;
+            padding-left:4px;
         }
 
         .tg .tg-instansi {
             font-weight: 400;
             text-align: center;
-            font-size: 22px;
-            padding-left: 15px;
+            font-size: 24px;
+            line-height: 24px;
+            padding-left: 5px;
+            margin: 0;
         }
 
         .tg .tg-alamat {
             text-align: center;
-            font-size: 13px;
-            padding-left: 15px;
+            font-size: 16px;
+            padding-left: 8px;
         }
 
         .line-2{
@@ -104,7 +107,7 @@
                 <td class="tg-instansi">DINAS PENANAMAN MODAL<br>DAN PELAYANAN SATU PINTU TERPADU</td>
             </tr>
             <tr>
-                <td class="tg-alamat">Jl. Soekarno Hatta No. 20 Kota Mungkid Telp. (0293) 788249 Fax. (0293) 789549 Kota Mungkid Kode Pos : 56511 website : www.dpmptsp.magelangkab.go.id <br>email : dpmptspkabupatenmagelang@gmail.com </td>
+                <td class="tg-alamat">Jl. Soekarno Hatta No. 20 Telp. (0293) 788249 Fax. (0293) 789549<br>Kota Mungkid 56511 www.dpmptsp.magelangkab.go.id<br>email : dpmptspkabupatenmagelang@gmail.com </td>
             </tr>
         </thead>
     </table>
@@ -112,8 +115,8 @@
     <div class="line-1"></div>
     <style>
         .title{
-            font-size: 17px; 
-            line-height: 19px; 
+            font-size: 16px; 
+            line-height: 18px; 
             text-align: center;
             text-decoration: underline;
             padding: 0;
@@ -134,8 +137,8 @@
             padding: 0;
             margin: 0;
             word-break: normal;
-            font-size: 13px; 
-            line-height: 15px; 
+            font-size: 16px; 
+            line-height: 16px; 
             text-align: left;
         }
         
@@ -147,22 +150,22 @@
         .tg .tg-hf2e{
             font-family:Arial, Helvetica, sans-serif !important;
             text-align:left;
-            font-size: 13px; 
-            line-height: 15px; 
+            font-size: 16px; 
+            line-height: 16px; 
         }
 
         .tg .tg-f5bs{
             font-family:Arial, Helvetica, sans-serif !important;
             text-align:center;
-            font-size: 13px; 
-            line-height: 15px;
+            font-size: 16px; 
+            line-height: 16px;
         }
         
         .fit-1{
             width: 60%;
             border: none;
-            font-size: 13px;
-            line-height: 15px;
+            font-size: 16px;
+            line-height: 16px;
             padding: 0;
             margin: 0;
         }
@@ -170,8 +173,8 @@
         .fit-2{
             width: 17%;
             border: none;
-            font-size: 13px;
-            line-height: 15px;
+            font-size: 16px;
+            line-height: 16px;
             padding: 0;
             margin: 0;
         }
@@ -179,8 +182,8 @@
         .fit-3{
             width: 3%;
             border: none;
-            font-size: 13px;
-            line-height: 15px;
+            font-size: 16px;
+            line-height: 16px;
             padding: 0;
             margin: 0;
         }
@@ -188,8 +191,8 @@
         .fit-4{
             width: 20%;
             border: none;
-            font-size: 13px;
-            line-height: 15px;
+            font-size: 16px;
+            line-height: 16px;
             padding: 0;
             margin: 0;
         }
@@ -237,7 +240,7 @@
         .tb-konten{
             border-collapse:collapse;
             border-spacing:0;
-            font-size: 13px;
+            font-size: 16px;
         }
         
         .tb-konten td{
@@ -263,7 +266,7 @@
             <tr>
                 <td class="box-1">2.</td>
                 <td class="box-2">Nama / NIP Pegawai yang melaksanakan perjalanan dinas</td>
-                <td class="box-3" colspan="2"><?=$key['nama_gelar'];?> <br>NIP. <?=$key['nip'];?></td>
+                <td class="box-3" colspan="2"><?=$key['nama_gelar'];?> <br>NIP. <?=($key['nip']=="")?"-":$key['nip'];?></td>
             </tr>
             <tr>
                 <td class="box-1">3.</td>
@@ -337,8 +340,6 @@
                         <li>&nbsp;</li>
                         <li>&nbsp;</li>
                         <li>&nbsp;</li>
-                        <li>&nbsp;</li>
-                        <li>&nbsp;</li>
                     </ol>
                 </td>
                 <td class="box-3" colspan="2"></td>
@@ -367,7 +368,7 @@
             </tr>
         </tbody>
     </table>
-    <p style="font-size: 14px;">&nbsp;&nbsp;&nbsp;*) coret yang tidak perlu</p>
+    <p style="font-size: 16px;margin-bottom:5px">&nbsp;&nbsp;&nbsp;*) coret yang tidak perlu</p>
     <table class="tg" style="width: 100%;border:none">
         <thead>
             <tr>
@@ -395,7 +396,7 @@
             <tr>
                 <td class="tg-hf2e"></td>
                 <td class="tg-hf2e"></td>
-                <td class="tg-f5bs" colspan="3" style="padding:60px 0px 60px 15px;">${ttd_pengirim}</td>
+                <td class="tg-f5bs" colspan="3" style="padding:55px 0px 55px 50px;">${ttd_pengirim}</td>
                 <td class="tg-hf2e"></td>
             </tr>
             <tr>
@@ -449,7 +450,7 @@
         }
         
         span{
-            font-size: 13px;
+            font-size: 16px;
         }
     </style>
     <table style="width: 100%" class="tb-konten">
@@ -527,7 +528,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td colspan="3"  height="100"></td>
+                <td colspan="3" height="65"></td>
                 <td colspan="5"></td>
             </tr>
             <tr>
@@ -550,7 +551,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td colspan="3" height="100"></td>
+                <td colspan="3" height="65"></td>
                 <td colspan="5"></td>
             </tr>
             <tr>
@@ -576,7 +577,7 @@
                 <td class="mid-1" style="border-top:none"></td>
                 <td colspan="3" style="text-align: center;border-top:none">
                     <span > Pengguna Anggaran</span>
-                    <br><br><br><br><br><br>
+                    <br><br><br><br><br>
                     <span style="text-decoration: underline;">DIDIK KRISTIA SOFIAN, S.Kom., M.Sc</span>
                     <br>
                     <span >NIP. 197611262005011004</span>

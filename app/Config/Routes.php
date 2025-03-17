@@ -50,6 +50,7 @@ $routes->group('aktivitas', function ($routes) {
         $routes->post('tambah-lokasi', $root_menu . '::tambahLokasi');
         $routes->get('detail-perusahaan', $root_menu . '::detailPerusahaan');
         $routes->post('ambil-data-lokasi', $root_menu . '::ambilDataLokasi');
+        $routes->post('hapus-lokasi', $root_menu . '::hapusLokasi');
         //unduh
         $routes->get('unduh-sppd', $root_menu . '::unduhSppd');
         $routes->get('unduh-spt-pdf', $root_menu . '::unduhSptPdf');
@@ -59,6 +60,9 @@ $routes->group('aktivitas', function ($routes) {
         $routes->post('ambil-data-orang', $root_menu . '::ambilDataOrang');
         $routes->post('hapus-orang', $root_menu . '::hapusOrang');
         //jurnal
+        $routes->get('jurnal', $root_menu . '::jurnal');
+        $routes->post('tambah-jurnal', $root_menu . '::tambahJurnal');
+        
         $routes->post('ambil-data-opd', $root_menu. '::ambilDataOPD');
     });
 });

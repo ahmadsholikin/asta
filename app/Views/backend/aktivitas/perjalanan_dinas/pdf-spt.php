@@ -9,7 +9,7 @@
 <body>
     <!-- template -->
     <style type="text/css">
-        @page { margin:  55px 55px 94px 94px; font-family: Arial, Helvetica, sans-serif; }
+        @page { margin:  55px 55px 54px 94px; font-family: Arial, Helvetica, sans-serif; }
         body { margin: 0px; }
         /** Define the footer rules **/
         footer {
@@ -59,20 +59,23 @@
             font-size: 18px;
             line-height: 18px;
             margin: 0;
-            padding-left:15px;
+            padding-bottom: 0;
+            padding-left:4px;
         }
 
         .tg .tg-instansi {
             font-weight: 400;
             text-align: center;
-            font-size: 23px;
-            padding-left: 15px;
+            font-size: 24px;
+            line-height: 24px;
+            padding-left: 5px;
+            margin: 0;
         }
 
         .tg .tg-alamat {
             text-align: center;
-            font-size: 14px;
-            padding-left: 15px;
+            font-size: 16px;
+            padding-left: 8px;
         }
 
         .line-2{
@@ -99,7 +102,7 @@
                 <td class="tg-instansi">DINAS PENANAMAN MODAL<br>DAN PELAYANAN SATU PINTU TERPADU</td>
             </tr>
             <tr>
-                <td class="tg-alamat">Jl. Soekarno Hatta No. 20 Kota Mungkid Telp. (0293) 788249 Fax. (0293) 789549 Kota Mungkid Kode Pos : 56511 website : www.dpmptsp.magelangkab.go.id <br>email : dpmptspkabupatenmagelang@gmail.com </td>
+                <td class="tg-alamat">Jl. Soekarno Hatta No. 20 Telp. (0293) 788249 Fax. (0293) 789549<br>Kota Mungkid 56511 www.dpmptsp.magelangkab.go.id<br>email : dpmptspkabupatenmagelang@gmail.com </td>
             </tr>
         </thead>
     </table>
@@ -150,14 +153,13 @@
         }
     </style>
     <p class="judul">SURAT PERINTAH TUGAS<br>Nomor : ${nomor_naskah}</p>
-    <br>
     <table style="width: 100%;border:none" class="tb-konten">
         <tbody>
             <tr>
                 <td style="width: 10%;">Dasar</td>
                 <td style="width: 2%">:</td>
                 <td style="width: 3%">1.</td>
-                <td style="width: 85%;text-align: justify;">Peraturan Pemerintah Nomor 5 Tahun 2021 tentang Penyelenggaraan Perizinan Berusaha Berbasis Risiko;</td>
+                <td style="width: 85%;text-align: justify;font-size:16px">Peraturan Pemerintah Nomor 5 Tahun 2021 tentang Penyelenggaraan Perizinan Berusaha Berbasis Risiko;</td>
             </tr>
             <tr>
                 <td style="width: 10%;"></td>
@@ -191,9 +193,7 @@
             </tr>
         </tbody>
     </table>
-    <br>
     <p class="judul">MEMERINTAHKAN</p>
-    <br>
     <table style="width: 100%;border:none" class="tb-konten">
         <tbody>
             <?php $i=1; foreach($pengikut as $row) : ?>
@@ -217,7 +217,7 @@
                 <td style="width: 3%"></td>
                 <td style="width: 17%;">NIP</td>
                 <td style="width: 2%">:</td>
-                <td style="width: 68%"><?=$row['nip'];?></td>
+                <td style="width: 68%"><?=($row['nip']=="")?"-":$row['nip'];?></td>
             </tr>
             <tr>
                 <td style="width: 10%;"></td>
@@ -225,7 +225,7 @@
                 <td style="width: 3%"></td>
                 <td style="width: 17%;">Pangkat, Gol.</td>
                 <td style="width: 2%">:</td>
-                <td style="width: 66%"><?=$row['pangkat'];?>, <?=$row['golru'];?></td>
+                <td style="width: 66%"><?=($row['pangkat']=="")?"-":$row['pangkat'];?>, <?=($row['golru']=="")?"-":$row['golru'];?></td>
             </tr>
             <tr>
                 <td style="width: 10%;"></td>
@@ -246,7 +246,7 @@
                 <td style="width: 10%;">Untuk</td>
                 <td style="width: 2%">:</td>
                 <td style="width: 3%">1.</td>
-                <td colspan="3" style="width: 85%; text-align: justify;">Melaksanakan tugas perjalanan dinas dalam daerah dalam rangka <?=$tujuan;?> pada:</td>
+                <td colspan="3" style="width: 85%; text-align: justify;">Melaksanakan perjalanan dinas dalam daerah dalam rangka <?=$tujuan;?> pada:</td>
             </tr>
             <tr>
                 <td style="width: 10%;"></td>
@@ -256,11 +256,23 @@
                 <td style="width: 2%">:</td>
                 <td style="width: 66%; text-align: justify;"><?=$hari;?>, <?=$tanggal;?></td>
             </tr>
+            <?php
+                $awal   = "08:00";
+                $akhir  = "selesai";
+            ?>
             <tr>
                 <td style="width: 10%;"></td>
                 <td style="width: 2%"></td>
                 <td style="width: 3%"></td>
-                <td style="width: 17%">Lokasi</td>
+                <td style="width: 17%">Waktu</td>
+                <td style="width: 2%">:</td>
+                <td style="width: 66%; text-align: justify;"><?=$awal;?> sampai <?=$akhir;?></td>
+            </tr>
+            <tr>
+                <td style="width: 10%;"></td>
+                <td style="width: 2%"></td>
+                <td style="width: 3%"></td>
+                <td style="width: 17%">Tempat/Lokasi</td>
                 <td style="width: 2%">:</td>
                 <td style="width: 66%; text-align: justify;">
                 <?php $urut_lokasi=1;foreach($lokasi as $rl): ?>
@@ -301,12 +313,12 @@
             </tr>
             <tr>
                 <td class="tg-hf2e"></td>
-                <td class="tg-f5bs" colspan="3">Plt. KEPALA DINAS PENANAMAN MODAL<br>DAN PELAYANAN TERPADU SATU PINTU<br>KABUPATEN MAGELANG,<br>SEKRETARIS</td>
+                <td class="tg-f5bs" colspan="3">Plt. KEPALA DINAS PENANAMAN MODAL<br>DAN PELAYANAN TERPADU SATU PINTU<br>KABUPATEN MAGELANG <br>SEKRETARIS,</td>
             </tr>
             <tr>
                 <td class="tg-hf2e"></td>
                 <td class="tg-hf2e"></td>
-                <td class="tg-f5bs" style="padding:60px 0px 60px 15px;">${ttd_pengirim}</td>
+                <td class="tg-f5bs" style="padding:55px 0px 55px 50px;">${ttd_pengirim}</td>
                 <td class="tg-hf2e"></td>
             </tr>
             <tr>

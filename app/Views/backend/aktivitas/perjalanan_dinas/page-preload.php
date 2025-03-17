@@ -463,44 +463,89 @@
     function hapusOrang()
     {
         var id_person =  $("input[name='personId']").val();
-        console.log(id_person);
-        
-        Swal.fire({
-            title: "Apakah yakin mau dihapus?",
-            text: "data yang sudah dihapus tidak dapat dikembalikan kembali!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, hapus saja"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax(
-                {
-                    "url"  : url_backend + "hapus-orang",
-                    "type" : "POST",
-                    "data"    : { 
-                        "id"  : id_person,
-                    },
-                    success: function(data, textStatus, xhr)
+        if(id_person!="")
+        {
+            Swal.fire({
+                title: "Apakah yakin mau dihapus?",
+                text: "data yang sudah dihapus tidak dapat dikembalikan kembali!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus saja"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax(
                     {
-                        console.log("data"+data);
-                        //notif delete
-                        Swal.fire({
-                            title: "Terhapus!",
-                            text: "Data telah berhasil dihapus.",
-                            icon: "success"
-                        });
-                        
-                        table.ajax.reload();
-                    },
-                    error: function(textStatus,xhr)
+                        "url"  : url_backend + "hapus-orang",
+                        "type" : "POST",
+                        "data"    : { 
+                            "id"  : id_person,
+                        },
+                        success: function(data, textStatus, xhr)
+                        {
+                            console.log("data"+data);
+                            //notif delete
+                            Swal.fire({
+                                title: "Terhapus!",
+                                text: "Data telah berhasil dihapus.",
+                                icon: "success"
+                            });
+                            
+                            table.ajax.reload();
+                        },
+                        error: function(textStatus,xhr)
+                        {
+                            console.log("error hapus form entrian orang");
+                        }
+                    });
+                }
+            });
+        }
+    }
+    
+    function hapusLokasi()
+    {
+        var id_lokasi =  $("input[name='id_lokasi']").val();
+        if(id_lokasi!="")
+        {
+            Swal.fire({
+                title: "Apakah yakin mau dihapus?",
+                text: "data yang sudah dihapus tidak dapat dikembalikan kembali!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus saja"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax(
                     {
-                        console.log("error hapus form entrian orang");
-                    }
-                });
-            }
-        });
+                        "url"  : url_backend + "hapus-lokasi",
+                        "type" : "POST",
+                        "data"    : { 
+                            "id"  : id_lokasi,
+                        },
+                        success: function(data, textStatus, xhr)
+                        {
+                            console.log("data"+data);
+                            //notif delete
+                            Swal.fire({
+                                title: "Terhapus!",
+                                text: "Data telah berhasil dihapus.",
+                                icon: "success"
+                            });
+                            
+                            table.ajax.reload();
+                        },
+                        error: function(textStatus,xhr)
+                        {
+                            console.log("error hapus form entrian orang");
+                        }
+                    });
+                }
+            });
+        }
     }
     
     function setTanggal(tanggal)
@@ -545,37 +590,4 @@
             }
         });
     });
-    
-    $(document).ready(function() {
-        $('#catatan').summernote({
-            placeholder: 'Tulis hasil atau rekomendasi disini...',
-            tabsize: 2,
-            height: 220,
-            toolbar: [
-                ['font', ['bold', 'underline']],
-                ['para', ['ul', 'ol', 'paragraph']]
-            ]
-        });
-    });
-    
-    function jurnal(id_agenda)
-    {
-        $.ajax(
-        {
-            "url"     : url_backend + "ambil-data-opd",
-            "type"    : "POST",
-            "data"    : { 
-                "id"  : id_agenda,
-            },
-            success: function(data, textStatus, xhr)
-            {
-                console.log(data);
-                $("#opd_jurnal").html(data);
-            },
-            error: function(textStatus,xhr)
-            {
-                console.log("error");
-            }
-        });
-    }
 </script>

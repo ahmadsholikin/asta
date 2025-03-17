@@ -100,6 +100,26 @@
                     
                     <div class="row">
                         <div class="col-6 mb-3">
+                            <label for="jam_mulai" class="form-label form-label-sm">Jam Mulai</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="jam_mulai" id="jam_mulai" autocomplete="off" placeholder="Entrian...">
+                                <label class="input-group-text" for="inputGroupSelect02"><i class="fi fi-rr-clock"></i></label>
+                            </div>
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="jam_selesai" class="form-label form-label-sm">Jam Selesai</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="jam_selesai" id="jam_selesai" autocomplete="off" placeholder="Entrian...">
+                                <label class="input-group-text" for="inputGroupSelect02"><i class="fi fi-rr-clock"></i></label>
+                            </div>
+                            <div id='defaultFormControlHelp' class='form-text text-danger help-block with-errors'></div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6 mb-3">
                             <label for="tanggal_surat" class="form-label form-label-sm">Tanggal Surat</label>
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm datepicker" name="tanggal_surat" id="tanggal_surat" autocomplete="off" placeholder="Entrian...">
@@ -320,44 +340,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-sm btn-teal" data-bs-dismiss="modal" id="btnSimpan">Simpan</button>
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- modal -->
-<div class="modal fade" id="jurnalModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <form action="<?=base_url();?>aktivitas/perjalanan-dinas/tambah-jurnal" id="formEntrianJurnal" name="formEntrianJurnal" method="POST" data-toggle='validator' role='form' onsubmit='return false;'>
-                <div class="modal-header">
-                    <h6 class="modal-title fs-6" id="staticBackdropLabel">Jurnal Catatan Kunjungan Dinas</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <label for="kategori" class="form-label form-label-sm">Kategori</label>
-                        <select class="form-control form-control-sm" id="kategori" name="kategori">
-                            <option value="Hasil">Hasil</option>
-                            <option value="Rekomendasi">Rekomendasi</option>
-                        </select>
+                    <div class="flex-grow-1">
+                        <button type="button" onclick="hapusLokasi()" class="btn btn-sm btn-danger float-start" data-bs-dismiss="modal">Hapus</button>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="opd_jurnal" class="form-label form-label-sm">OPD Pencatat</label>
-                        <select class="form-control form-control-sm" id="opd_jurnal" name="opd_jurnal">
-                            <option value="-" disabled selected>-- Pilihan OPD --</option>
-                        </select>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="nip" class="form-label form-label-sm">Catatan</label>
-                        <textarea type="text" class="form-control form-control-sm" name="catatan" id="catatan"></textarea>
-                        <div id="defaultFormControlHelp" class="form-text text-danger help-block with-errors"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
                     <button type="submit" class="btn btn-sm btn-teal" data-bs-dismiss="modal" id="btnSimpan">Simpan</button>
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
                 </div>
